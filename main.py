@@ -4,7 +4,7 @@ import threading
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, MenuButtonWebApp
 
 API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
 ADMIN_ID = 6935814571
@@ -36,7 +36,6 @@ def init_db():
     conn = sqlite3.connect('bot_database.db')
     cursor = conn.cursor()
     
-    # ইউজার টেবিল (ব্লক স্ট্যাটাসসহ)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
@@ -46,7 +45,6 @@ def init_db():
         )
     ''')
     
-    # টাস্ক টেবিল
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +54,6 @@ def init_db():
         )
     ''')
     
-    # সেটিংস টেবিল (রেফার কমিশন)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS settings (
             key TEXT PRIMARY KEY,
@@ -65,7 +62,6 @@ def init_db():
     ''')
     cursor.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('ref_bonus', '5.0')")
     
-    # মাল্টি-অ্যাকাউন্ট ট্র্যাক করার ডিভাইস টেবিল
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS user_devices (
             user_id INTEGER,
@@ -78,6 +74,17 @@ def init_db():
     conn.close()
 
 init_db()
+
+# --- বট স্টার্ট হওয়ার সময় নিচের মেনু বাটন সেট করার ফাংশন ---
+async def set_bot_menu(dispatcher: Dispatcher):
+    try:
+        # টেলিগ্রাম চ্যাটের নিচে স্থায়ী "Open" বাটন সেট করা
+        await bot.set_chat_menu_button(
+            menu_button=MenuButtonWebApp(text="🚀 Open", web_app=WebAppInfo(url=WEB_APP_URL))
+        )
+        logging.info("Telegram Menu Button set successfully!")
+    except Exception as e:
+        logging.error(f"Failed to set menu button: {e}")
 
 # --- চ্যানেল সাবস্ক্রিপশন চেক করার ফাংশন ---
 async def is_subscribed(user_id: int) -> bool:
@@ -98,7 +105,6 @@ async def cmd_start(message: types.Message):
     conn = sqlite3.connect('bot_database.db')
     cursor = conn.cursor()
     
-    # ইউজার ব্লক করা আছে কি না চেক
     cursor.execute('SELECT is_banned FROM users WHERE user_id = ?', (user_id,))
     user = cursor.fetchone()
     
@@ -124,7 +130,7 @@ async def cmd_start(message: types.Message):
         )
         return
 
-    # চ্যানেলে জয়েন করা থাকলে শুধু ক্লিন "Open" বাটন দেখাবে
+    # চ্যানেলে জয়েন করা থাকলে চ্যাটের ভেতরে এবং নিচে উভয় জায়গায় Open বাটন পাওয়া যাবে
     keyboard = InlineKeyboardMarkup(row_width=1)
     keyboard.add(
         InlineKeyboardButton("🚀 Open", web_app=WebAppInfo(url=WEB_APP_URL))
@@ -150,7 +156,7 @@ async def verify_join(callback: types.CallbackQuery):
             reply_markup=keyboard
         )
     else:
-        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন.", show_alert=True)
+        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন।", show_alert=True)
 
 # ==========================================
 # --- অ্যাডমিন প্যানেল (Admin Panel) ---
@@ -173,7 +179,6 @@ async def cmd_admin(message: types.Message):
     
     await message.reply("🛠 **প্রফেশনাল অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে সিলেক্ট করুন:", reply_markup=keyboard)
 
-# ১. মোট ইউজার দেখা
 @dp.callback_query_handler(text="admin_stats")
 async def admin_stats(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -187,14 +192,12 @@ async def admin_stats(callback: types.CallbackQuery):
     
     await callback.answer(f"📊 বটের মোট রেজিস্টার্ড ইউজার: {total_users} জন", show_alert=True)
 
-# ২. ব্রডকাস্ট
 @dp.callback_query_handler(text="admin_broadcast")
 async def admin_broadcast(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
         return
     await callback.answer("📢 ব্রডকাস্ট ফিচার প্রস্তুত করা হচ্ছে!", show_alert=True)
 
-# ৩. টাস্ক ম্যানেজমেন্ট মেনু
 @dp.callback_query_handler(text="admin_tasks")
 async def admin_tasks(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -233,7 +236,6 @@ async def view_tasks(callback: types.CallbackQuery):
     
     await callback.message.edit_text(text)
 
-# ৪. রেফারেল রেট চেক
 @dp.callback_query_handler(text="admin_ref_rate")
 async def admin_ref_rate(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -248,7 +250,6 @@ async def admin_ref_rate(callback: types.CallbackQuery):
     
     await callback.answer(f"💰 বর্তমান রেফার বোনাস: {current_bonus} টাকা", show_alert=True)
 
-# ৫. মাল্টি-অ্যাকাউন্ট চেক
 @dp.callback_query_handler(text="admin_fraud_check")
 async def admin_fraud_check(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -275,7 +276,6 @@ async def admin_fraud_check(callback: types.CallbackQuery):
     
     await callback.message.edit_text(text)
 
-# ব্যাক বাটন
 @dp.callback_query_handler(text="back_admin")
 async def back_admin(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -293,4 +293,5 @@ async def back_admin(callback: types.CallbackQuery):
 
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    # বট চালু হওয়ার সাথে সাথে নিচের মেনু বাটন সেট করার জন্য on_startup ব্যবহার করা হয়েছে
+    executor.start_polling(dp, skip_updates=True, on_startup=set_bot_menu)

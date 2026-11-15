@@ -3,12 +3,10 @@ import sqlite3
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
-# আপনার বটের টোকেন এবং অ্যাডমিন আইডি এখানে বসাবেন
-API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o'
-ADMIN_ID = 123456789  # আপনার টেলিগ্রাম আইডি এখানে দেবেন
-
-# মিনি-অ্যাপের গিটহ্যাব বা হোস্টিং লিংক এখানে বসাবেন
-WEB_APP_URL = 'https://your-github-page-url.com'
+# আপনার বটের টোকেন শুধু এখানে বসাবেন (বাকি সব সেট করা আছে)
+API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
+ADMIN_ID = 6935814571
+WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)

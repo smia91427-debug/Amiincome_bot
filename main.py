@@ -3,7 +3,7 @@ import sqlite3
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
-# আপনার বটের টোকেন শুধু এখানে বসাবেন (বাকি সব সেট করা আছে)
+# আপনার বটের টোকেন এবং অ্যাডমিন আইডি
 API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
 ADMIN_ID = 6935814571
 WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
@@ -41,7 +41,6 @@ async def cmd_start(message: types.Message):
     conn.close()
 
     keyboard = InlineKeyboardMarkup(row_width=1)
-    # মিনি অ্যাপ ওপেন করার বাটন
     keyboard.add(
         InlineKeyboardButton("🚀 Open Earn App", web_app=WebAppInfo(url=WEB_APP_URL)),
         InlineKeyboardButton("📢 Official Channel", url="https://t.me/YourChannel")
@@ -58,6 +57,7 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler(commands=['admin'])
 async def cmd_admin(message: types.Message):
+    # আপনার আইডি চেক করা হচ্ছে, অন্য কেউ দিলে কাজ করবে না
     if message.from_user.id != ADMIN_ID:
         await message.reply("⚠️ আপনার এই প্যানেল ব্যবহার করার অনুমতি নেই!")
         return
@@ -65,11 +65,13 @@ async def cmd_admin(message: types.Message):
     keyboard = InlineKeyboardMarkup(row_width=2)
     keyboard.add(
         InlineKeyboardButton("📊 Total Users", callback_data="admin_stats"),
-        InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast")
+        InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast"),
+        InlineKeyboardButton("⚙️ Settings / Ad Link", callback_data="admin_settings")
     )
     
-    await message.reply("🛠 **অ্যাডমিন প্যানেলে স্বাগতম বস!**", reply_markup=keyboard)
+    await message.reply("🛠 **অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে আপনার প্রয়োজনীয় কাজ সিলেক্ট করুন:", reply_markup=keyboard)
 
+# ১. মোট ইউজার দেখার ফাংশন
 @dp.callback_query_handler(text="admin_stats")
 async def admin_stats(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -81,7 +83,24 @@ async def admin_stats(callback: types.CallbackQuery):
     total_users = cursor.fetchone()[0]
     conn.close()
     
-    await callback.answer(f"বটের মোট রেজিস্টার্ড ইউজার: {total_users} জন", show_alert=True)
+    await callback.answer(f"📊 বটের মোট রেজিস্টার্ড ইউজার: {total_users} জন", show_alert=True)
+
+# ২. ব্রডকাস্ট অপশনের নোটিফিকেশন
+@dp.callback_query_handler(text="admin_broadcast")
+async def admin_broadcast(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    await callback.answer("📢 ব্রডকাস্ট সিস্টেম খুব শীঘ্রই আপডেট করা হচ্ছে!", show_alert=True)
+
+# ৩. সেটিংস বা অ্যাড লিঙ্কের অপশন
+@dp.callback_query_handler(text="admin_settings")
+async def admin_settings(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    await callback.answer("⚙️ অ্যাড লিংক ম্যানেজমেন্ট প্যানেল প্রস্তুত হচ্ছে!", show_alert=True)
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

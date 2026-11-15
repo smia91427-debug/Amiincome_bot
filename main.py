@@ -6,7 +6,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
 ADMIN_ID = 6935814571
 WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
-CHANNEL_USERNAME = '@YourChannel'  # আপনার অফিশিয়াল চ্যানেলের ইউজারনেম এখানে বসাবেন
+CHANNEL_USERNAME = '@amiofficialchannel'  # আপনার অফিশিয়াল চ্যানেলের ইউজারনেম এখানে বসাবেন
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)

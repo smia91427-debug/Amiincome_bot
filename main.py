@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 # আপনার বটের টোকেন এবং অ্যাডমিন আইডি এখানে বসাবেন
-API_TOKEN = 'YOUR_BOT_TOKEN_HERE'
+API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o'
 ADMIN_ID = 123456789  # আপনার টেলিগ্রাম আইডি এখানে দেবেন
 
 # মিনি-অ্যাপের গিটহ্যাব বা হোস্টিং লিংক এখানে বসাবেন

@@ -4,7 +4,7 @@ import threading
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -93,9 +93,8 @@ async def is_subscribed(user_id: int) -> bool:
         logging.error(f"Subscription check error: {e}")
     return False
 
-# --- স্টার্ট কমান্ড ও চ্যানেল জয়েন চেক ---
-@dp.message_handler(commands=['start'])
-async def cmd_start(message: types.Message):
+# --- মূল ওয়েলকাম ও সাবস্ক্রিপশন চেক ফাংশন ---
+async def send_welcome_or_subscribe(message: types.Message):
     user_id = message.from_user.id
     username = message.from_user.username
     
@@ -114,43 +113,58 @@ async def cmd_start(message: types.Message):
     conn.commit()
     conn.close()
 
+    # স্থায়ী নিচের কিবোর্ড যেখানে Open App এবং Restart বাটন থাকবে
+    persistent_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, is_persistent=True, row_width=2)
+    persistent_keyboard.add(
+        KeyboardButton("🚀 Open App", web_app=WebAppInfo(url=WEB_APP_URL)),
+        KeyboardButton("🔄 Restart")
+    )
+
     if not await is_subscribed(user_id):
-        keyboard = InlineKeyboardMarkup(row_width=1)
-        keyboard.add(
+        inline_kb = InlineKeyboardMarkup(row_width=1)
+        inline_kb.add(
             InlineKeyboardButton("📢 চ্যানেলে জয়েন করুন", url=f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}"),
             InlineKeyboardButton("✅ ভেরিফাই করুন", callback_data="verify_join")
         )
         await message.answer(
             "⚠️ বটটি ব্যবহার করতে হলে প্রথমে আমাদের অফিসিয়াল চ্যানেলে জয়েন করতে হবে!\n\nদয়া করে নিচের বাটনে ক্লিক করে চ্যানেলে জয়েন করুন এবং তারপর **'ভেরিফাই করুন'** বাটনে ক্লিক করুন:",
-            reply_markup=keyboard
+            reply_markup=inline_kb
         )
         return
 
-    keyboard = InlineKeyboardMarkup(row_width=1)
-    keyboard.add(
-        InlineKeyboardButton("🚀 Open App", web_app=WebAppInfo(url=WEB_APP_URL))
-    )
-
     await message.answer(
-        f"হ্যালো {message.from_user.first_name}! আমাদের প্রফেশনাল আর্নিং বটে স্বাগতম।",
-        reply_markup=keyboard
+        f"হ্যালো {message.from_user.first_name}! আমাদের প্রফেশনাল আর্নিং বটে স্বাগতম। নিচে থেকে অ্যাপ ওপেন করুন বা রিস্টার্ট দিন:",
+        reply_markup=persistent_keyboard
     )
 
+# --- স্টার্ট কমান্ড হ্যান্ডলার ---
+@dp.message_handler(commands=['start'])
+async def cmd_start(message: types.Message):
+    await send_welcome_or_subscribe(message)
+
+# --- রিস্টার্ট বাটন হ্যান্ডলার ---
+@dp.message_handler(lambda message: message.text == "🔄 Restart")
+async def handle_restart_button(message: types.Message):
+    await send_welcome_or_subscribe(message)
+
+# --- ভেরিফাই বাটন হ্যান্ডলার ---
 @dp.callback_query_handler(text="verify_join")
 async def verify_join(callback: types.CallbackQuery):
     user_id = callback.from_user.id
     
     if await is_subscribed(user_id):
-        keyboard = InlineKeyboardMarkup(row_width=1)
-        keyboard.add(
-            InlineKeyboardButton("🚀 Open App", web_app=WebAppInfo(url=WEB_APP_URL))
+        persistent_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, is_persistent=True, row_width=2)
+        persistent_keyboard.add(
+            KeyboardButton("🚀 Open App", web_app=WebAppInfo(url=WEB_APP_URL)),
+            KeyboardButton("🔄 Restart")
         )
-        await callback.message.edit_text(
-            "✅ ভেরিফিকেশন সফল হয়েছে! কাজ শুরু করতে নিচের বাটনে ক্লিক করুন:",
-            reply_markup=keyboard
+        await callback.message.edit_text("✅ ভেরিফিকেশন সফল হয়েছে!")
+        await callback.message.answer(
+            "কাজ শুরু করতে নিচের বাটন ব্যবহার করুন 👇",
+            reply_markup=persistent_keyboard
         )
     else:
-        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন.", show_alert=True)
+        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন।", show_alert=True)
 
 # ==========================================
 # --- অ্যাডমিন প্যানেল (Admin Panel) ---
@@ -173,7 +187,6 @@ async def cmd_admin(message: types.Message):
     
     await message.reply("🛠 **প্রফেশনাল অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে সিলেক্ট করুন:", reply_markup=keyboard)
 
-# ১. ইউজার লিস্ট দেখানো (নামসহ)
 @dp.callback_query_handler(text="admin_users_list")
 async def admin_users_list(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -200,7 +213,6 @@ async def admin_users_list(callback: types.CallbackQuery):
     keyboard.add(InlineKeyboardButton("🔙 Back to Admin", callback_data="back_admin"))
     await callback.message.edit_text("👥 **রেজিস্টার্ড ইউজারদের তালিকা:**\nইউজারের উপর ক্লিক করে কন্ট্রোল করুন:", reply_markup=keyboard)
 
-# ২. নির্দিষ্ট ইউজারের কন্ট্রোল প্যানেল (ব্যালেন্স, ব্লক, আনব্লক)
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('manage_user_'))
 async def manage_user_panel(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -232,19 +244,18 @@ async def manage_user_panel(callback: types.CallbackQuery):
     
     keyboard = InlineKeyboardMarkup(row_width=1)
     keyboard.add(
-        InlineKeyboardButton("✏️ Change Balance (অ্যামাউন্ট পরিবর্তন)", callback_data=f"set_bal_{u_id}")
+        InlineKeyboardButton("✏️ Change Balance", callback_data=f"set_bal_{u_id}")
     )
     
     if is_banned == 1:
-        keyboard.add(InlineKeyboardButton("✅ Unblock User (আনব্লক করুন)", callback_data=f"toggle_ban_{u_id}"))
+        keyboard.add(InlineKeyboardButton("✅ Unblock User", callback_data=f"toggle_ban_{u_id}"))
     else:
-        keyboard.add(InlineKeyboardButton("🚫 Block User (ব্লক করুন)", callback_data=f"toggle_ban_{u_id}"))
+        keyboard.add(InlineKeyboardButton("🚫 Block User", callback_data=f"toggle_ban_{u_id}"))
         
     keyboard.add(InlineKeyboardButton("🔙 Back to User List", callback_data="admin_users_list"))
     
     await callback.message.edit_text(text, reply_markup=keyboard, parse_mode="Markdown")
 
-# ৩. ব্যালেন্স পরিবর্তন করার জন্য প্রম্পট (FSM Trigger)
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('set_bal_'))
 async def ask_new_balance(callback: types.CallbackQuery, state: FSMContext):
     if callback.from_user.id != ADMIN_ID:
@@ -257,7 +268,6 @@ async def ask_new_balance(callback: types.CallbackQuery, state: FSMContext):
     await callback.message.answer("✍️ এই ইউজারের জন্য নতুন কত অ্যামাউন্ট সেট করতে চান? শুধু সংখ্যাটি লিখে পাঠান (যেমন: 50 বা 100):")
     await callback.answer()
 
-# ৪. ব্যালেন্স সেভ করা
 @dp.message_handler(state=AdminStates.waiting_for_new_balance)
 async def save_new_balance(message: types.Message, state: FSMContext):
     if message.from_user.id != ADMIN_ID:
@@ -281,7 +291,6 @@ async def save_new_balance(message: types.Message, state: FSMContext):
     await state.finish()
     await message.reply(f"✅ সফলভাবে ইউজারের ব্যালেন্স আপডেট করে **{new_balance} BDT** করা হয়েছে!")
 
-# ৫. ব্লক / আনব্লক টগল করা
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('toggle_ban_'))
 async def toggle_ban_user(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -328,7 +337,7 @@ async def admin_tasks(callback: types.CallbackQuery):
 
 @dp.callback_query_handler(text="add_task_info")
 async def add_task_info(callback: types.CallbackQuery):
-    await callback.answer("নতুন টাস্ক যোগ করার অপশন চালু হচ্ছে.", show_alert=True)
+    await callback.answer("নতুন টাস্ক যোগ করার অপশন চালু হচ্ছে।", show_alert=True)
 
 @dp.callback_query_handler(text="view_tasks")
 async def view_tasks(callback: types.CallbackQuery):

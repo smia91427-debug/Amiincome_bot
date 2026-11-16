@@ -207,7 +207,7 @@
                 <h4 style="font-size: 14px; color: #ffecd2;">আপনার রেফারেল লিংক</h4>
                 <p style="font-size: 11px; color: #bbb; margin-top: 3px;">বন্ধুদের ইনভাইট করুন এবং তাদের আয়ে কমিশন পান!</p>
                 <div class="ref-input-box">
-                    <input type="text" id="ref-link" value="" readonly>
+                    <input type="text" id="ref-link" value="Loading..." readonly>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-copy" onclick="copyRefLink()">📋 Copy Link</button>
@@ -215,7 +215,7 @@
                 </div>
             </div>
 
-            <!-- রেফারের শর্ত ও কমিশন পলিসি বক্স (সংশোধিত) -->
+            <!-- রেফারের শর্ত ও কমিশন পলিসি বক্স -->
             <div class="ref-rules-box">
                 <h5>📌 রেফারের শর্ত ও লাইফটাইম কমিশন:</h5>
                 <ul>
@@ -266,7 +266,7 @@
                 </div>
                 <div class="info-row">
                     <span style="color: #bbb;">টেলিগ্রাম আইডি</span>
-                    <strong id="acc-id" style="color: #00d2ff;">000000</strong>
+                    <strong id="acc-id" style="color: #00d2ff;">Loading...</strong>
                 </div>
                 <div class="info-row">
                     <span style="color: #bbb;">অ্যাকাউন্ট স্ট্যাটাস</span>
@@ -298,7 +298,7 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // টেলিগ্রাম থেকে রিয়েল ইউজার ডেটা নেওয়ার লজিক
+        // ডায়নামিক ইউনিক ইউজার আইডি সেট করার লজিক (যেকোনো ইউজার খুললে তার নিজের আইডি দিয়ে লিংক তৈরি হবে)
         if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
             const user = tg.initDataUnsafe.user;
             const fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -308,9 +308,10 @@
             document.getElementById('acc-username').innerText = user.username ? "@" + user.username : "@user_" + user.id;
             document.getElementById('acc-id').innerText = user.id;
 
+            // ইউজারের ইউনিক আইডি দিয়ে ডাইনামিক রেফারেল লিংক তৈরি
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${user.id}`;
         } else {
-            // যদি ব্রাউজার বা অন্য কোথাও থেকে খোলা হয়
+            // যদি ব্রাউজার বা অন্য কোথাও থেকে ওপেন করা হয় (টেস্টিংয়ের জন্য ডিফল্ট)
             document.getElementById('acc-name').innerText = "Sakib Mia";
             document.getElementById('acc-avatar').innerText = "S";
             document.getElementById('acc-username').innerText = "@smia91427";

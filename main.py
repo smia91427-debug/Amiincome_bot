@@ -150,7 +150,7 @@ async def verify_join(callback: types.CallbackQuery):
             reply_markup=keyboard
         )
     else:
-        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন।", show_alert=True)
+        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন.", show_alert=True)
 
 # ==========================================
 # --- অ্যাডমিন প্যানেল (Admin Panel) ---
@@ -328,7 +328,7 @@ async def admin_tasks(callback: types.CallbackQuery):
 
 @dp.callback_query_handler(text="add_task_info")
 async def add_task_info(callback: types.CallbackQuery):
-    await callback.answer("নতুন টাস্ক যোগ করার অপশন চালু হচ্ছে।", show_alert=True)
+    await callback.answer("নতুন টাস্ক যোগ করার অপশন চালু হচ্ছে.", show_alert=True)
 
 @dp.callback_query_handler(text="view_tasks")
 async def view_tasks(callback: types.CallbackQuery):
@@ -342,4 +342,70 @@ async def view_tasks(callback: types.CallbackQuery):
     conn.close()
     
     if not tasks:
-        await callback.answer("
+        await callback.answer("⚠️ কোনো টাস্ক পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    text = "📋 **বর্তমান টাস্কগুলোর তালিকা:**\n\n"
+    for t in tasks:
+        text += f"ID: {t[0]} | Title: {t[1]} | Reward: {t[2]} BDT\n"
+    
+    await callback.message.edit_text(text)
+
+@dp.callback_query_handler(text="admin_ref_rate")
+async def admin_ref_rate(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT value FROM settings WHERE key = 'ref_bonus'")
+    row = cursor.fetchone()
+    current_bonus = row[0] if row else "5.0"
+    conn.close()
+    
+    await callback.answer(f"💰 বর্তমান রেফার বোনাস: {current_bonus} টাকা", show_alert=True)
+
+@dp.callback_query_handler(text="admin_fraud_check")
+async def admin_fraud_check(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT device_id, COUNT(DISTINCT user_id) as total_accounts, GROUP_CONCAT(user_id) 
+        FROM user_devices 
+        GROUP BY device_id 
+        HAVING total_accounts > 1
+    ''')
+    fraud_users = cursor.fetchall()
+    conn.close()
+    
+    if not fraud_users:
+        await callback.answer("✅ কোনো মাল্টি-অ্যাকাউন্ট চিটিং পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    text = "🚨 **মাল্টি-অ্যাকাউন্ট ধরা পড়েছে:**\n\n"
+    for f in fraud_users:
+        text += f"📱 Device: {f[0]}...\n👥 Accounts: {f[1]}টি\n🆔 IDs: {f[2]}\n\n"
+    
+    await callback.message.edit_text(text)
+
+@dp.callback_query_handler(text="back_admin")
+async def back_admin(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    keyboard = InlineKeyboardMarkup(row_width=2)
+    keyboard.add(
+        InlineKeyboardButton("👥 User List", callback_data="admin_users_list"),
+        InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast"),
+        InlineKeyboardButton("📝 Manage Tasks", callback_data="admin_tasks"),
+        InlineKeyboardButton("💰 Referral Rate", callback_data="admin_ref_rate"),
+        InlineKeyboardButton("🚨 Multi-Account Check", callback_data="admin_fraud_check")
+    )
+    await callback.message.edit_text("🛠 **অ্যাডমিন প্যানেলে স্বাগতম বস!**", reply_markup=keyboard)
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)

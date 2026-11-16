@@ -9,7 +9,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
+API_TOKEN = '9256749123:AAGik2hV1mTvKOxKsf6g2XGf0u4Ue9DiVQA' 
 ADMIN_ID = 6935814571
 WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
 CHANNEL_USERNAME = '@amiofficialchannel'

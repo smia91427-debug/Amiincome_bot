@@ -13,9 +13,9 @@
         .header { padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; }
         .logo-text { font-weight: bold; font-size: 15px; color: #ffecd2; white-space: nowrap; }
         
-        /* চলমান নোটিশ স্টাইল */
+        /* চলমান নোটিশ স্টাইল (গতি স্লো করার জন্য সময় বাড়িয়ে ২৮ সেকেন্ড করা হয়েছে) */
         .notice-container { flex-grow: 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 20px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
-        .notice-text { display: inline-block; white-space: nowrap; animation: marquee 14s linear infinite; font-size: 11px; color: #00ffcc; }
+        .notice-text { display: inline-block; white-space: nowrap; animation: marquee 28s linear infinite; font-size: 11px; color: #00ffcc; }
         @keyframes marquee { 
             0% { transform: translateX(100%); } 
             100% { transform: translateX(-100%); } 
@@ -112,7 +112,7 @@
             <div class="card">
                 <h3 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">🏆 শীর্ষ ১০ টপ আর্নার্স</h3>
                 <div>
-                    <div class="list-item"><span class="rank">#1</span><span class="item-name">@sakib_pro</span><span class="item-amount">৳ 1,250</span></div>
+                    <div class="list-item"><span class="rank">#1</span><span class="item-name">@smia91427</span><span class="item-amount">৳ 1,250</span></div>
                     <div class="list-item"><span class="rank">#2</span><span class="item-name">@rahim99</span><span class="item-amount">৳ 980</span></div>
                     <div class="list-item"><span class="rank">#3</span><span class="item-name">@tanvir_ahmed</span><span class="item-amount">৳ 850</span></div>
                     <div class="list-item"><span class="rank">#4</span><span class="item-name">@karim_hossain</span><span class="item-amount">৳ 720</span></div>
@@ -182,7 +182,7 @@
                 <h4 style="font-size: 14px; color: #ffecd2;">আপনার রেফারেল লিংক</h4>
                 <p style="font-size: 11px; color: #bbb; margin-top: 3px;">বন্ধুদের ইনভাইট করুন এবং তাদের আয়ে কমিশন পান!</p>
                 <div class="ref-input-box">
-                    <input type="text" id="ref-link" value="https://t.me/Amiincome_bot?start=000000" readonly>
+                    <input type="text" id="ref-link" value="" readonly>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-copy" onclick="copyRefLink()">📋 Copy Link</button>
@@ -225,14 +225,14 @@
             
             <div class="card profile-header">
                 <div class="avatar-big" id="acc-avatar">U</div>
-                <h3 id="acc-name" style="margin-bottom: 4px;">User Name</h3>
+                <h3 id="acc-name" style="margin-bottom: 4px;">Loading...</h3>
                 <span class="badge-active" style="font-size: 12px;">● Active Account</span>
             </div>
 
             <div class="card">
                 <div class="info-row">
                     <span style="color: #bbb;">ইউজারনেম</span>
-                    <strong id="acc-username" style="color: #ffecd2;">@username</strong>
+                    <strong id="acc-username" style="color: #ffecd2;">@loading</strong>
                 </div>
                 <div class="info-row">
                     <span style="color: #bbb;">টেলিগ্রাম আইডি</span>
@@ -268,7 +268,7 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // টেলিগ্রাম থেকে অটো ডেটা লোড করার সিস্টেম (ফেল করলে ডিফল্ট শো করবে)
+        // টেলিগ্রাম থেকে রিয়েল ইউজার ডেটা নেওয়ার লজিক
         if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
             const user = tg.initDataUnsafe.user;
             const fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -280,12 +280,12 @@
 
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${user.id}`;
         } else {
-            // ব্রাউজারে টেস্ট করার সময় ডেমো ডেটা দেখাবে যাতে জিরো বা ফাকা না থাকে
-            document.getElementById('acc-name').innerText = "Sakib Ahmed";
+            // যদি ব্রাউজার বা অন্য কোথাও থেকে খোলা হয়
+            document.getElementById('acc-name').innerText = "Sakib Mia";
             document.getElementById('acc-avatar').innerText = "S";
-            document.getElementById('acc-username').innerText = "@sakib_pro";
-            document.getElementById('acc-id').innerText = "84920192";
-            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=84920192`;
+            document.getElementById('acc-username').innerText = "@smia91427";
+            document.getElementById('acc-id').innerText = "8230078935";
+            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=8230078935`;
         }
 
         let balance = 0.00;
@@ -314,8 +314,6 @@
 
         function shareRefLink() {
             const refLink = document.getElementById('ref-link').value;
-            const shareText = "ঘরে বসে প্রতিদিন অ্যাড দেখে ও সহজ টাস্ক করে টাকা ইনকাম করুন! নিচের লিংক থেকে জয়েন করুন:\n" + refLink;
-            
             const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("ঘরে বসে প্রতিদিন টাকা ইনকাম করুন! এখনই জয়েন করুন:")}`;
             window.open(tgShareUrl, '_blank');
         }
@@ -371,4 +369,4 @@
         }
     </script>
 </body>
-</html>
+                        </html>

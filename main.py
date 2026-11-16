@@ -9,7 +9,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-API_TOKEN = '9256749123:AAGik2hV1mTvKOxKsf6g2XGf0u4Ue9DiVQA' 
+API_TOKEN = '9256749123:AAE1Tc5c9GExqHivojmtFjb4TBATv3PrgNE' 
 ADMIN_ID = 6935814571
 WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
 CHANNEL_USERNAME = '@amiofficialchannel'
@@ -128,16 +128,10 @@ async def send_welcome_or_subscribe(message: types.Message):
             InlineKeyboardButton("📢 চ্যানেলে জয়েন করুন", url=f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}"),
             InlineKeyboardButton("✅ ভেরিফাই করুন", callback_data="verify_join")
         )
-        await message.answer(
-            "⚠️ বটটি ব্যবহার করতে হলে প্রথমে আমাদের অফিসিয়াল চ্যানেলে জয়েন করতে হবে!\n\nদয়া করে নিচের বাটনে ক্লিক করে চ্যানেলে জয়েন করুন এবং তারপর **'ভেরিফাই করুন'** বাটনে ক্লিক করুন:",
-            reply_markup=inline_kb
-        )
+        await message.answer("⚠️ বটটি ব্যবহার করতে হলে প্রথমে আমাদের অফিসিয়াল চ্যানেলে জয়েন করতে হবে!\n\nদয়া করে নিচের বাটনে ক্লিক করে চ্যানেলে জয়েন করুন এবং তারপর **'ভেরিফাই করুন'** বাটনে ক্লিক করুন:", reply_markup=inline_kb)
         return
 
-    await message.answer(
-        f"হ্যালো {message.from_user.first_name}! আমাদের প্রফেশনাল আর্নিং বটে স্বাগতম। নিচে থেকে অ্যাপ ওপেন করুন বা রিস্টার্ট দিন 👇",
-        reply_markup=get_clean_keyboard()
-    )
+    await message.answer(f"হ্যালো {message.from_user.first_name}! আমাদের প্রফেশনাল আর্নিং বটে স্বাগতম। নিচে থেকে অ্যাপ ওপেন করুন বা রিস্টার্ট দিন 👇", reply_markup=get_clean_keyboard())
 
 # --- স্টার্ট কমান্ড ---
 @dp.message_handler(commands=['start'])
@@ -156,10 +150,7 @@ async def verify_join(callback: types.CallbackQuery):
     
     if await is_subscribed(user_id):
         await callback.message.edit_text("✅ ভেরিফিকেশন সফল হয়েছে!")
-        await callback.message.answer(
-            "কাজ শুরু করতে নিচের বাটনগুলো ব্যবহার করুন 👇",
-            reply_markup=get_clean_keyboard()
-        )
+        await callback.message.answer("কাজ শুরু করতে নিচের বাটনগুলো ব্যবহার করুন 👇", reply_markup=get_clean_keyboard())
     else:
         await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন।", show_alert=True)
 
@@ -208,4 +199,204 @@ async def admin_users_list(callback: types.CallbackQuery):
         )
     
     keyboard.add(InlineKeyboardButton("🔙 Back to Admin", callback_data="back_admin"))
-    await callback.message.edit_text("👥 **রেজিস্টার্ড ইউজারদের তালিকা:**\nইউজারের উপর ক্লিক করে কন্ট্রোল করুন:", reply_markup
+    await callback.message.edit_text("👥 **রেজিস্টার্ড ইউজারদের তালিকা:** ইউজারের উপর ক্লিক করে কন্ট্রোল করুন:", reply_markup=keyboard)
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('manage_user_'))
+async def manage_user_panel(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    user_id = int(callback.data.split('_')[2])
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT user_id, username, balance, is_banned FROM users WHERE user_id = ?', (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if not user:
+        await callback.answer("⚠️ ইউজারটি পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    u_id, username, balance, is_banned = user
+    uname_str = f"@{username}" if username else "N/A"
+    status_str = "🔴 Blocked" if is_banned == 1 else "🟢 Active"
+    
+    text = f"👤 **ইউজার ডিটেইলস:**\n\n🆔 ID: `{u_id}`\n👤 Username: {uname_str}\n💰 বর্তমান ব্যালেন্স: {balance} BDT\n📌 স্ট্যাটাস: {status_str}"
+    
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    keyboard.add(
+        InlineKeyboardButton("✏️ Change Balance", callback_data=f"set_bal_{u_id}")
+    )
+    
+    if is_banned == 1:
+        keyboard.add(InlineKeyboardButton("✅ Unblock User", callback_data=f"toggle_ban_{u_id}"))
+    else:
+        keyboard.add(InlineKeyboardButton("🚫 Block User", callback_data=f"toggle_ban_{u_id}"))
+        
+    keyboard.add(InlineKeyboardButton("🔙 Back to User List", callback_data="admin_users_list"))
+    
+    await callback.message.edit_text(text, reply_markup=keyboard, parse_mode="Markdown")
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('set_bal_'))
+async def ask_new_balance(callback: types.CallbackQuery, state: FSMContext):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    user_id = int(callback.data.split('_')[2])
+    await state.update_data(target_user_id=user_id)
+    await AdminStates.waiting_for_new_balance.set()
+    
+    await callback.message.answer("✍️ এই ইউজারের জন্য নতুন কত অ্যামাউন্ট সেট করতে চান? শুধু সংখ্যাটি লিখে পাঠান (যেমন: 50 বা 100):")
+    await callback.answer()
+
+@dp.message_handler(state=AdminStates.waiting_for_new_balance)
+async def save_new_balance(message: types.Message, state: FSMContext):
+    if message.from_user.id != ADMIN_ID:
+        return
+    
+    try:
+        new_balance = float(message.text)
+    except ValueError:
+        await message.reply("❌ দয়া করে সঠিক সংখ্যা লিখুন (যেমন: 50)!")
+        return
+    
+    data = await state.get_data()
+    target_user_id = data.get('target_user_id')
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('UPDATE users SET balance = ? WHERE user_id = ?', (new_balance, target_user_id))
+    conn.commit()
+    conn.close()
+    
+    await state.finish()
+    await message.reply(f"✅ সফলভাবে ইউজারের ব্যালেন্স আপডেট করে **{new_balance} BDT** করা হয়েছে!")
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('toggle_ban_'))
+async def toggle_ban_user(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    user_id = int(callback.data.split('_')[2])
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT is_banned FROM users WHERE user_id = ?', (user_id,))
+    res = cursor.fetchone()
+    
+    if res:
+        new_status = 0 if res[0] == 1 else 1
+        cursor.execute('UPDATE users SET is_banned = ? WHERE user_id = ?', (new_status, user_id))
+        conn.commit()
+    conn.close()
+    
+    action_name = "আনব্লক" if new_status == 0 else "ব্লক"
+    await callback.answer(f"✅ ইউজারকে সফলভাবে {action_name} করা হয়েছে!", show_alert=True)
+    
+    fake_callback = callback
+    fake_callback.data = f"manage_user_{user_id}"
+    await manage_user_panel(fake_callback)
+
+@dp.callback_query_handler(text="admin_broadcast")
+async def admin_broadcast(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    await callback.answer("📢 ব্রডকাস্ট ফিচার প্রস্তুত করা হচ্ছে!", show_alert=True)
+
+@dp.callback_query_handler(text="admin_tasks")
+async def admin_tasks(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    keyboard.add(
+        InlineKeyboardButton("➕ Add New Task", callback_data="add_task_info"),
+        InlineKeyboardButton("📋 View/Delete Tasks", callback_data="view_tasks"),
+        InlineKeyboardButton("🔙 Back to Admin", callback_data="back_admin")
+    )
+    await callback.message.edit_text("📝 **টাস্ক ম্যানেজমেন্ট প্যানেল:**", reply_markup=keyboard)
+
+@dp.callback_query_handler(text="add_task_info")
+async def add_task_info(callback: types.CallbackQuery):
+    await callback.answer("নতুন টাস্ক যোগ করার অপশন চালু হচ্ছে।", show_alert=True)
+
+@dp.callback_query_handler(text="view_tasks")
+async def view_tasks(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, title, reward FROM tasks')
+    tasks = cursor.fetchall()
+    conn.close()
+    
+    if not tasks:
+        await callback.answer("⚠️ কোনো টাস্ক পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    text = "📋 **বর্তমান টাস্কগুলোর তালিকা:**\n\n"
+    for t in tasks:
+        text += f"ID: {t[0]} | Title: {t[1]} | Reward: {t[2]} BDT\n"
+    
+    await callback.message.edit_text(text)
+
+@dp.callback_query_handler(text="admin_ref_rate")
+async def admin_ref_rate(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT value FROM settings WHERE key = 'ref_bonus'")
+    row = cursor.fetchone()
+    current_bonus = row[0] if row else "5.0"
+    conn.close()
+    
+    await callback.answer(f"💰 বর্তমান রেফার বোনাস: {current_bonus} টাকা", show_alert=True)
+
+@dp.callback_query_handler(text="admin_fraud_check")
+async def admin_fraud_check(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT device_id, COUNT(DISTINCT user_id) as total_accounts, GROUP_CONCAT(user_id) 
+        FROM user_devices 
+        GROUP BY device_id 
+        HAVING total_accounts > 1
+    ''')
+    fraud_users = cursor.fetchall()
+    conn.close()
+    
+    if not fraud_users:
+        await callback.answer("✅ কোনো মাল্টি-অ্যাকাউন্ট চিটিং পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    text = "🚨 **মাল্টি-অ্যাকাউন্ট ধরা পড়েছে:**\n\n"
+    for f in fraud_users:
+        text += f"📱 Device: {f[0]}...\n👥 Accounts: {f[1]}টি\n🆔 IDs: {f[2]}\n\n"
+    
+    await callback.message.edit_text(text)
+
+@dp.callback_query_handler(text="back_admin")
+async def back_admin(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    keyboard = InlineKeyboardMarkup(row_width=2)
+    keyboard.add(
+        InlineKeyboardButton("👥 User List", callback_data="admin_users_list"),
+        InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast"),
+        InlineKeyboardButton("📝 Manage Tasks", callback_data="admin_tasks"),
+        InlineKeyboardButton("💰 Referral Rate", callback_data="admin_ref_rate"),
+        InlineKeyboardButton("🚨 Multi-Account Check", callback_data="admin_fraud_check")
+    )
+    await callback.message.edit_text("🛠 **অ্যাডমিন প্যানেলে স্বাগতম বস!**", reply_markup=keyboard)
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)

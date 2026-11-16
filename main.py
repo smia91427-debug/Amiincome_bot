@@ -11,7 +11,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.dispatcher.handler import CancelHandler
 
-API_TOKEN = '9256749123:AAFe4PIUr_LR0esudKZUL4Ro5_MHAEJQJ7o' 
+# --- আপনার নতুন এবং সঠিক এপিআই টোকেন ---
+API_TOKEN = '9256749123:AAE1Tc5c9GExqHivojmtFjb4TBATv3PrgNE' 
 ADMIN_ID = 6935814571
 WEB_APP_URL = 'https://smia91427-debug.github.io/Amiincome_bot/'
 CHANNEL_USERNAME = '@amiofficialchannel'
@@ -468,37 +469,4 @@ async def process_task_reward(message: types.Message, state: FSMContext):
     await message.reply(f"✅ সফলভাবে নতুন টাস্ক যোগ করা হয়েছে!\n\n📌 Title: {title}\n🔗 URL: {url}\n💰 Reward: {reward} BDT")
 
 # ২. টাস্ক দেখা এবং ডিলিট করার প্রসেস
-@dp.callback_query_handler(text="view_tasks")
-async def view_tasks(callback: types.CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
-        return
-    
-    conn = sqlite3.connect('bot_database.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT id, title, reward FROM tasks')
-    tasks = cursor.fetchall()
-    conn.close()
-    
-    if not tasks:
-        await callback.answer("⚠️ কোনো টাস্ক পাওয়া যায়নি!", show_alert=True)
-        return
-    
-    keyboard = InlineKeyboardMarkup(row_width=1)
-    for t in tasks:
-        keyboard.add(
-            InlineKeyboardButton(f"❌ ডিলিট: {t[1]} ({t[2]} BDT)", callback_data=f"del_task_{t[0]}")
-        )
-    keyboard.add(InlineKeyboardButton("🔙 Back to Task Menu", callback_data="admin_tasks"))
-    
-    await callback.message.edit_text("📋 **বর্তমান টাস্কগুলোর তালিকা:**\n(যেটি ডিলিট করতে চান তার উপর ক্লিক করুন)", reply_markup=keyboard)
-
-@dp.callback_query_handler(lambda c: c.data and c.data.startswith('del_task_'))
-async def delete_task_action(callback: types.CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
-        return
-    
-    task_id = int(callback.data.split('_')[2])
-    
-    conn = sqlite3.connect('bot_database.db')
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
+@dp.callback_query_handler(

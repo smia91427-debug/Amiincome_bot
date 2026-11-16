@@ -127,27 +127,3 @@ init_db()
 async def is_subscribed(user_id: int) -> bool:
     try:
         member = await bot.get_chat_member(chat_id=CHANNEL_USERNAME, user_id=user_id)
-        if member.status in ['member', 'administrator', 'creator']:
-            return True
-    except Exception as e:
-        logging.error(f"Subscription check error: {e}")
-    return False
-
-# --- মূল কিবোর্ড: শুধু Open App এবং Restart বাটন ---
-def get_clean_keyboard():
-    keyboard = ReplyKeyboardMarkup(resize_keyboard=True, is_persistent=True, row_width=2)
-    keyboard.add(
-        KeyboardButton("🚀 Open App", web_app=WebAppInfo(url=WEB_APP_URL)),
-        KeyboardButton("🔄 Restart")
-    )
-    return keyboard
-
-# --- স্টার্ট ও রিস্টার্ট হ্যান্ডেল করার মেইন ফাংশন ---
-async def send_welcome_or_subscribe(message: types.Message):
-    user_id = message.from_user.id
-    username = message.from_user.username
-    
-    conn = sqlite3.connect('bot_database.db')
-    cursor = conn.cursor()
-    
-    cursor.execute('SELECT is

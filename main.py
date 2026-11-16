@@ -161,4 +161,51 @@ async def verify_join(callback: types.CallbackQuery):
             reply_markup=get_clean_keyboard()
         )
     else:
-        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন
+        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন করুন।", show_alert=True)
+
+# ==========================================
+# --- অ্যাডমিন প্যানেল (Admin Panel) ---
+# ==========================================
+
+@dp.message_handler(commands=['admin'])
+async def cmd_admin(message: types.Message):
+    if message.from_user.id != ADMIN_ID:
+        await message.reply("⚠️ আপনার এই প্যানেল ব্যবহার করার অনুমতি নেই!")
+        return
+
+    keyboard = InlineKeyboardMarkup(row_width=2)
+    keyboard.add(
+        InlineKeyboardButton("👥 User List", callback_data="admin_users_list"),
+        InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast"),
+        InlineKeyboardButton("📝 Manage Tasks", callback_data="admin_tasks"),
+        InlineKeyboardButton("💰 Referral Rate", callback_data="admin_ref_rate"),
+        InlineKeyboardButton("🚨 Multi-Account Check", callback_data="admin_fraud_check")
+    )
+    
+    await message.reply("🛠 **প্রফেশনাল অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে সিলেক্ট করুন:", reply_markup=keyboard)
+
+@dp.callback_query_handler(text="admin_users_list")
+async def admin_users_list(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT user_id, username, balance, is_banned FROM users')
+    users = cursor.fetchall()
+    conn.close()
+    
+    if not users:
+        await callback.answer("⚠️ কোনো ইউজার পাওয়া যায়নি!", show_alert=True)
+        return
+    
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    for u in users:
+        uname = f"@{u[1]}" if u[1] else f"ID: {u[0]}"
+        status_icon = "🔴" if u[3] == 1 else "🟢"
+        keyboard.add(
+            InlineKeyboardButton(f"{status_icon} {uname} (Bal: {u[2]} BDT)", callback_data=f"manage_user_{u[0]}")
+        )
+    
+    keyboard.add(InlineKeyboardButton("🔙 Back to Admin", callback_data="back_admin"))
+    await callback.message.edit_text("👥 **রেজিস্টার্ড ইউজারদের তালিকা:**\nইউজারের উপর ক্লিক করে কন্ট্রোল করুন:", reply_markup

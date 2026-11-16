@@ -191,7 +191,6 @@
             <!-- উইথড্র হিস্টরি কার্ড -->
             <div class="card">
                 <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">📜 উইথড্র হিস্টরি</h4>
-                <!-- ডায়নামিক ও স্ক্রলেবল উইথড্র হিস্টরি লিস্ট কন্টেইনার -->
                 <div class="scrollable-withdraw-list" id="withdraw-history-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো উইথড্র রিকোয়েস্ট করা হয়নি।
@@ -216,11 +215,11 @@
                 </div>
             </div>
 
-            <!-- রেফারের শর্ত ও কমিশন পলিসি বক্স -->
+            <!-- রেফারের শর্ত ও কমিশন পলিসি বক্স (সংশোধিত) -->
             <div class="ref-rules-box">
                 <h5>📌 রেফারের শর্ত ও লাইফটাইম কমিশন:</h5>
                 <ul>
-                    <li>প্রতিটি সফল রেফারে মেম্বার মেইন ব্যালেন্সে যুক্ত হওয়ার সাথেই আপনি পেয়ে যাবেন <b>৫ টাকা বোনাস</b>!</li>
+                    <li>আপনার রেফারেল লিংক দিয়ে কেউ একাউন্ট খোলার পর সে যখন মোট <b>২০ টাকা আর্ন (Earn)</b> করবে, তখন আপনি সাথে সাথে পেয়ে যাবেন <b>৫ টাকা বোনাস</b>!</li>
                     <li>আপনার রেফারকৃত ইউজার যখনই সফলভাবে টাকা উইথড্র (Withdraw) করবে, প্রতিবার আপনি পাবেন <b>১ টাকা করে আজীবন লাইফটাইম কমিশন</b>!</li>
                 </ul>
             </div>
@@ -242,7 +241,6 @@
 
             <div class="card">
                 <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
-                <!-- ডায়নামিক ও স্ক্রলেবল টিম লিস্ট কন্টেইনার -->
                 <div class="scrollable-team-list" id="team-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
@@ -280,7 +278,7 @@
                 </div>
                 <div class="info-row">
                     <span style="color: #bbb;">মোট উইথড্র</span>
-                    <strong id="acc-fff;" style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong>
+                    <strong style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong>
                 </div>
             </div>
         </div>
@@ -402,7 +400,7 @@
 
             // ব্যালেন্স থেকে টাকা কর্তন
             balance -= amt;
-            updateBalance(0); // ব্যালেন্স রিফ্রেশ করার জন্য
+            updateBalance(0);
 
             // মোট উইথড্র হিসাব আপডেট
             totalWithdrawnAmount += amt;
@@ -421,7 +419,7 @@
                 status: 'Pending'
             };
 
-            withdrawHistory.unshift(historyItem); // নতুনটা সবার উপরে দেখাবে
+            withdrawHistory.unshift(historyItem);
             renderWithdrawHistory();
 
             tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");

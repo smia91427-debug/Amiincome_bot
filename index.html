@@ -13,7 +13,7 @@
         .header { padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; }
         .logo-text { font-weight: bold; font-size: 15px; color: #ffecd2; white-space: nowrap; }
         
-        /* চলমান নোটিশ স্টাইল (গতি স্লো করার জন্য সময় বাড়িয়ে ২৮ সেকেন্ড করা হয়েছে) */
+        /* চলমান নোটিশ স্টাইল */
         .notice-container { flex-grow: 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 20px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
         .notice-text { display: inline-block; white-space: nowrap; animation: marquee 28s linear infinite; font-size: 11px; color: #00ffcc; }
         @keyframes marquee { 
@@ -48,6 +48,21 @@
         .rank { font-weight: bold; color: #ff007f; width: 28px; }
         .item-name { flex-grow: 1; color: #eee; }
         .item-amount { font-weight: bold; color: #00ffcc; text-align: right; }
+
+        /* স্ক্রলেবল টিম মেম্বার ও উইথড্র হিস্টরি লিস্ট বক্স */
+        .scrollable-team-list, .scrollable-withdraw-list { max-height: 200px; overflow-y: auto; padding-right: 4px; }
+        .scrollable-team-list::-webkit-scrollbar, .scrollable-withdraw-list::-webkit-scrollbar { width: 4px; }
+        .scrollable-team-list::-webkit-scrollbar-thumb, .scrollable-withdraw-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+
+        .withdraw-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; }
+        .withdraw-item:last-child { border-bottom: none; }
+        .badge-pending { font-size: 9px; background: rgba(255, 193, 7, 0.2); color: #ffc107; padding: 2px 6px; border-radius: 8px; }
+
+        /* রেফার শর্ত বক্স স্টাইল */
+        .ref-rules-box { background: rgba(0, 0, 0, 0.25); border: 1px dashed rgba(0, 255, 204, 0.3); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
+        .ref-rules-box h5 { color: #00ffcc; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+        .ref-rules-box ul { padding-left: 18px; font-size: 11px; color: #dcd6f7; line-height: 1.5; }
+        .ref-rules-box li { margin-bottom: 4px; }
 
         /* মাই টিম রেফার বক্স ও স্ট্যাটাস */
         .ref-input-box { display: flex; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 10px 12px; margin: 12px 0; }
@@ -172,6 +187,17 @@
                 </div>
                 <button class="btn btn-ad" onclick="submitWithdraw()">Submit Withdraw Request</button>
             </div>
+
+            <!-- উইথড্র হিস্টরি কার্ড -->
+            <div class="card">
+                <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">📜 উইথড্র হিস্টরি</h4>
+                <!-- ডায়নামিক ও স্ক্রলেবল উইথড্র হিস্টরি লিস্ট কন্টেইনার -->
+                <div class="scrollable-withdraw-list" id="withdraw-history-list">
+                    <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
+                        এখনো কোনো উইথড্র রিকোয়েস্ট করা হয়নি।
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 5. MY TEAM PAGE -->
@@ -188,6 +214,15 @@
                     <button class="btn btn-copy" onclick="copyRefLink()">📋 Copy Link</button>
                     <button class="btn btn-send" onclick="shareRefLink()">📤 Send / Share</button>
                 </div>
+            </div>
+
+            <!-- রেফারের শর্ত ও কমিশন পলিসি বক্স -->
+            <div class="ref-rules-box">
+                <h5>📌 রেফারের শর্ত ও লাইফটাইম কমিশন:</h5>
+                <ul>
+                    <li>প্রতিটি সফল রেফারে মেম্বার মেইন ব্যালেন্সে যুক্ত হওয়ার সাথেই আপনি পেয়ে যাবেন <b>৫ টাকা বোনাস</b>!</li>
+                    <li>আপনার রেফারকৃত ইউজার যখনই সফলভাবে টাকা উইথড্র (Withdraw) করবে, প্রতিবার আপনি পাবেন <b>১ টাকা করে আজীবন লাইফটাইম কমিশন</b>!</li>
+                </ul>
             </div>
 
             <div class="stats-grid">
@@ -207,13 +242,10 @@
 
             <div class="card">
                 <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
-                <div id="team-list">
-                    <div class="list-item">
-                        <div class="item-name">
-                            <strong>Rakibul Hasan</strong> <span class="badge-active">Active</span><br>
-                            <small style="color: #aaa; font-size: 11px;">মোট আয়: ৳ ৪৫.০০</small>
-                        </div>
-                        <div class="item-amount">+৳ ৬.০০<br><small style="color: #aaa; font-size: 10px;">প্রফিট</small></div>
+                <!-- ডায়নামিক ও স্ক্রলেবল টিম লিস্ট কন্টেইনার -->
+                <div class="scrollable-team-list" id="team-list">
+                    <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
+                        এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
                     </div>
                 </div>
             </div>
@@ -248,7 +280,7 @@
                 </div>
                 <div class="info-row">
                     <span style="color: #bbb;">মোট উইথড্র</span>
-                    <strong style="color: #fff;">৳ 0.00</strong>
+                    <strong id="acc-fff;" style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong>
                 </div>
             </div>
         </div>
@@ -290,6 +322,8 @@
 
         let balance = 0.00;
         let adsWatched = 0;
+        let withdrawHistory = [];
+        let totalWithdrawnAmount = 0.00;
 
         function switchTab(tabId, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -358,6 +392,7 @@
         }
 
         function submitWithdraw() {
+            const method = document.getElementById('pay-method').value;
             const num = document.getElementById('pay-number').value;
             const amt = parseFloat(document.getElementById('pay-amount').value);
 
@@ -365,8 +400,62 @@
             if (isNaN(amt) || amt < 15) { tg.showAlert("সর্বনিম্ন উইথড্র ১৫ টাকা!"); return; }
             if (amt > balance) { tg.showAlert("আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই!"); return; }
 
+            // ব্যালেন্স থেকে টাকা কর্তন
+            balance -= amt;
+            updateBalance(0); // ব্যালেন্স রিফ্রেশ করার জন্য
+
+            // মোট উইথড্র হিসাব আপডেট
+            totalWithdrawnAmount += amt;
+            document.getElementById('total-withdraw').innerText = totalWithdrawnAmount.toFixed(2);
+
+            // বর্তমান তারিখ ও সময় তৈরি
+            const now = new Date();
+            const timeString = now.toLocaleDateString('bn-BD') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // হিস্টরিতে নতুন রিকোয়েস্ট যোগ করা
+            const historyItem = {
+                method: method.toUpperCase(),
+                number: num,
+                amount: amt.toFixed(2),
+                time: timeString,
+                status: 'Pending'
+            };
+
+            withdrawHistory.unshift(historyItem); // নতুনটা সবার উপরে দেখাবে
+            renderWithdrawHistory();
+
             tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
+
+            // ইনপুট ফিল্ড রিসেট
+            document.getElementById('pay-number').value = '';
+            document.getElementById('pay-amount').value = '15';
+        }
+
+        // উইথড্র হিস্টরি রেন্ডার করার ফাংশন
+        function renderWithdrawHistory() {
+            const listEl = document.getElementById('withdraw-history-list');
+            if (withdrawHistory.length === 0) {
+                listEl.innerHTML = `<div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">এখনো কোনো উইথড্র রিকোয়েস্ট করা হয়নি।</div>`;
+                return;
+            }
+
+            let html = '';
+            withdrawHistory.forEach(item => {
+                html += `
+                    <div class="withdraw-item">
+                        <div>
+                            <strong>${item.method} (${item.number})</strong><br>
+                            <small style="color: #aaa; font-size: 10px;">${item.time}</small>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="color: #ff007f; font-weight: bold;">৳ ${item.amount}</span><br>
+                            <span class="badge-pending">${item.status}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = html;
         }
     </script>
 </body>
-                        </html>
+</html>

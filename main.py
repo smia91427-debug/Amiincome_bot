@@ -130,4 +130,35 @@ async def send_welcome_or_subscribe(message: types.Message):
         )
         await message.answer(
             "⚠️ বটটি ব্যবহার করতে হলে প্রথমে আমাদের অফিসিয়াল চ্যানেলে জয়েন করতে হবে!\n\nদয়া করে নিচের বাটনে ক্লিক করে চ্যানেলে জয়েন করুন এবং তারপর **'ভেরিফাই করুন'** বাটনে ক্লিক করুন:",
-            reply_markup
+            reply_markup=inline_kb
+        )
+        return
+
+    await message.answer(
+        f"হ্যালো {message.from_user.first_name}! আমাদের প্রফেশনাল আর্নিং বটে স্বাগতম। নিচে থেকে অ্যাপ ওপেন করুন বা রিস্টার্ট দিন 👇",
+        reply_markup=get_clean_keyboard()
+    )
+
+# --- স্টার্ট কমান্ড ---
+@dp.message_handler(commands=['start'])
+async def cmd_start(message: types.Message):
+    await send_welcome_or_subscribe(message)
+
+# --- রিস্টার্ট বাটন হ্যান্ডলার ---
+@dp.message_handler(lambda message: message.text == "🔄 Restart")
+async def handle_restart(message: types.Message):
+    await send_welcome_or_subscribe(message)
+
+# --- ভেরিফাই বাটন হ্যান্ডলার ---
+@dp.callback_query_handler(text="verify_join")
+async def verify_join(callback: types.CallbackQuery):
+    user_id = callback.from_user.id
+    
+    if await is_subscribed(user_id):
+        await callback.message.edit_text("✅ ভেরিফিকেশন সফল হয়েছে!")
+        await callback.message.answer(
+            "কাজ শুরু করতে নিচের বাটনগুলো ব্যবহার করুন 👇",
+            reply_markup=get_clean_keyboard()
+        )
+    else:
+        await callback.answer("❌ আপনি এখনো আমাদের চ্যানেলে জয়েন করেননি! দয়া করে আগে চ্যানেলে জয়েন

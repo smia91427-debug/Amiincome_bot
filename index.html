@@ -207,7 +207,7 @@
                 <h4 style="font-size: 14px; color: #ffecd2;">আপনার রেফারেল লিংক</h4>
                 <p style="font-size: 11px; color: #bbb; margin-top: 3px;">বন্ধুদের ইনভাইট করুন এবং তাদের আয়ে কমিশন পান!</p>
                 <div class="ref-input-box">
-                    <input type="text" id="ref-link" value="Loading..." readonly>
+                    <input type="text" id="ref-link" value="" readonly>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-copy" onclick="copyRefLink()">📋 Copy Link</button>
@@ -240,7 +240,7 @@
             </div>
 
             <div class="card">
-                <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
+                <h4 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
                 <div class="scrollable-team-list" id="team-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
@@ -298,25 +298,27 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ডায়নামিক ইউনিক ইউজার আইডি সেট করার লজিক (যেকোনো ইউজার খুললে তার নিজের আইডি দিয়ে লিংক তৈরি হবে)
+        // কঠোরভাবে টেলিগ্রামের রিয়েল ডাটা তোলার লজিক (কোনো ফেক আইডি বা ডিফল্ট রাখা হয়নি)
         if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
             const user = tg.initDataUnsafe.user;
             const fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            const username = user.username ? "@" + user.username : "@user_" + user.id;
             
+            // অ্যাকাউন্ট পেজে রিয়েল ডাটা বসানো
             document.getElementById('acc-name').innerText = fullName;
             document.getElementById('acc-avatar').innerText = user.first_name.charAt(0).toUpperCase();
-            document.getElementById('acc-username').innerText = user.username ? "@" + user.username : "@user_" + user.id;
+            document.getElementById('acc-username').innerText = username;
             document.getElementById('acc-id').innerText = user.id;
 
-            // ইউজারের ইউনিক আইডি দিয়ে ডাইনামিক রেফারেল লিংক তৈরি
+            // ইউজারের ইউনিক টেলিগ্রাম আইডি দিয়ে ডাইনামিক রেফারেল লিংক তৈরি
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${user.id}`;
         } else {
-            // যদি ব্রাউজার বা অন্য কোথাও থেকে ওপেন করা হয় (টেস্টিংয়ের জন্য ডিফল্ট)
-            document.getElementById('acc-name').innerText = "Sakib Mia";
-            document.getElementById('acc-avatar').innerText = "S";
-            document.getElementById('acc-username').innerText = "@smia91427";
-            document.getElementById('acc-id').innerText = "8230078935";
-            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=8230078935`;
+            // যদি কেউ টেলিগ্রাম অ্যাপের বাইরে সাধারণ ব্রাউজার থেকে খোলে
+            document.getElementById('acc-name').innerText = "Telegram User";
+            document.getElementById('acc-avatar').innerText = "T";
+            document.getElementById('acc-username').innerText = "@telegram_user";
+            document.getElementById('acc-id').innerText = "Not Available";
+            document.getElementById('ref-link').value = "দয়া করে টেলিগ্রাম বট থেকে ওপেন করুন";
         }
 
         let balance = 0.00;
@@ -339,16 +341,24 @@
 
         function copyRefLink() {
             const refInput = document.getElementById('ref-link');
-            refInput.select();
-            refInput.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(refInput.value);
-            tg.showAlert("রেফারেল লিংক সফলভাবে কপি হয়েছে!");
+            if(refInput.value.includes("http")) {
+                refInput.select();
+                refInput.setSelectionRange(0, 99999);
+                navigator.clipboard.writeText(refInput.value);
+                tg.showAlert("রেফারেল লিংক সফলভাবে কপি হয়েছে!");
+            } else {
+                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি!");
+            }
         }
 
         function shareRefLink() {
             const refLink = document.getElementById('ref-link').value;
-            const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("ঘরে বসে প্রতিদিন টাকা ইনকাম করুন! এখনই জয়েন করুন:")}`;
-            window.open(tgShareUrl, '_blank');
+            if(refLink.includes("http")) {
+                const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("ঘরে বসে প্রতিদিন টাকা ইনকাম করুন! এখনই জয়েন করুন:")}`;
+                window.open(tgShareUrl, '_blank');
+            } else {
+                tg.showAlert("শেয়ার করার মতো কোনো লিংক পাওয়া যায়নি!");
+            }
         }
 
         function completeTask(reward, btn) {
@@ -432,7 +442,7 @@
 
         // উইথড্র হিস্টরি রেন্ডার করার ফাংশন
         function renderWithdrawHistory() {
-            const listEl = document.getElementById('withdraw-history-list');
+            The listEl = document.getElementById('withdraw-history-list');
             if (withdrawHistory.length === 0) {
                 listEl.innerHTML = `<div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">এখনো কোনো উইথড্র রিকোয়েস্ট করা হয়নি।</div>`;
                 return;

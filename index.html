@@ -98,7 +98,7 @@
 </head>
 <body>
 
-    <!-- হেডার ও সাপোর্ট বাটন (@smia91427 ইউজারনেম যুক্ত করা হলো) -->
+    <!-- হেডার ও সাপোর্ট বাটন (@smia91427 সরাসরি যুক্ত) -->
     <div class="header">
         <div class="logo-text">AMI Income</div>
         
@@ -127,7 +127,7 @@
                     <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ১</h4>
                     <span style="font-size: 11px; color: #00ffcc;">রিওয়ার্ড: ৳০.৫০</span>
                 </div>
-                <small style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
+                <small id="home-task1-status" style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
                 <div class="progress-info" style="margin-top: 8px;">
                     <span>দেখা হয়েছে</span>
                     <span><span id="home-task1-count">0</span>/100</span>
@@ -189,7 +189,7 @@
             <div class="card">
                 <h3 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">🏆 সেরা ৫ টপ আর্নার্স</h3>
                 <div id="real-leaderboard-list">
-                    <div class="list-item"><span class="rank">#1</span><span class="item-name" id="top-user-1">অপেক্ষা করুন...</span><span class="item-amount" id="top-amt-1">৳ 0.00</span></div>
+                    <div class="list-item"><span class="rank">#1</span><span class="item-name" id="top-user-1">Unavailable</span><span class="item-amount" id="top-amt-1">৳ 0.00</span></div>
                     <div class="list-item"><span class="rank">#2</span><span class="item-name" id="top-user-2">-</span><span class="item-amount" id="top-amt-2">৳ 0.00</span></div>
                     <div class="list-item"><span class="rank">#3</span><span class="item-name" id="top-user-3">-</span><span class="item-amount" id="top-amt-3">৳ 0.00</span></div>
                     <div class="list-item"><span class="rank">#4</span><span class="item-name" id="top-user-4">-</span><span class="item-amount" id="top-amt-4">৳ 0.00</span></div>
@@ -243,13 +243,8 @@
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
                     <span style="font-size: 12px; color: #888;">লক করা আছে</span>
                 </div>
-                <div class="progress-info">
-                    <span>প্রোগ্রেস</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
+                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
+                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
                 <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
@@ -259,13 +254,8 @@
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
                     <span style="font-size: 12px; color: #888;">লক করা আছে</span>
                 </div>
-                <div class="progress-info">
-                    <span>প্রোগ্রেস</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
+                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
+                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
                 <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
@@ -275,13 +265,8 @@
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
                     <span style="font-size: 12px; color: #888;">লক করা আছে</span>
                 </div>
-                <div class="progress-info">
-                    <span>প্রোগ্রেস</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
+                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
+                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
                 <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
         </div>
@@ -366,13 +351,13 @@
             
             <div class="card profile-header">
                 <div class="avatar-big" id="acc-avatar">U</div>
-                <h3 id="acc-name" style="margin-bottom: 4px;">Loading...</h3>
-                <span class="badge-active" style="font-size: 12px;">● Active Account</span>
+                <h3 id="acc-name" style="margin-bottom: 4px;">Unavailable</h3>
+                <span class="badge-active" style="font-size: 12px;">● Account Status</span>
             </div>
 
             <div class="card">
-                <div class="info-row"><span style="color: #bbb;">ইউজারনেম</span><strong id="acc-username" style="color: #ffecd2;">@loading</strong></div>
-                <div class="info-row"><span style="color: #bbb;">টেলিগ্রাম আইডি</span><strong id="acc-id" style="color: #00d2ff;">Loading...</strong></div>
+                <div class="info-row"><span style="color: #bbb;">ইউজারনেম</span><strong id="acc-username" style="color: #ffecd2;">Unavailable</strong></div>
+                <div class="info-row"><span style="color: #bbb;">টেলিগ্রাম আইডি</span><strong id="acc-id" style="color: #00d2ff;">Unavailable</strong></div>
                 <div class="info-row"><span style="color: #bbb;">অ্যাকাউন্ট স্ট্যাটাস</span><strong style="color: #00ffcc;">Active (ভেরিফাইড)</strong></div>
                 <div class="info-row"><span style="color: #bbb;">বর্তমান ব্যালেন্স</span><strong style="color: #ff007f;">৳ <span id="acc-balance">0.00</span></strong></div>
                 <div class="info-row"><span style="color: #bbb;">মোট উইথড্র</span><strong style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong></div>
@@ -400,7 +385,7 @@
 
         if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
             userId = tg.initDataUnsafe.user.id;
-            firstName = tg.initDataUnsafe.user.first_name || "Telegram User";
+            firstName = tg.initDataUnsafe.user.first_name || "User";
             username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
         } else if (tg.initData) {
             try {
@@ -409,7 +394,7 @@
                 if (userStr) {
                     const userObj = JSON.parse(userStr);
                     userId = userObj.id;
-                    firstName = userObj.first_name || "Telegram User";
+                    firstName = userObj.first_name || "User";
                     username = userObj.username ? "@" + userObj.username : "@user_" + userId;
                 }
             } catch (e) {
@@ -418,16 +403,15 @@
         }
 
         if (!userId) {
-            document.getElementById('acc-name').innerText = "Telegram User";
-            document.getElementById('acc-avatar').innerText = "T";
-            document.getElementById('acc-username').innerText = "@telegram_user";
-            document.getElementById('acc-id').innerText = "Not Available";
-            document.getElementById('ref-link').value = "দয়া করে টেলিগ্রাম বট থেকে ওপেন করুন";
-            
-            document.getElementById('top-user-1').innerText = "@smia91427";
-            document.getElementById('top-amt-1').innerText = "৳ 1,250";
+            document.getElementById('acc-name').innerText = "Unavailable";
+            document.getElementById('acc-avatar').innerText = "U";
+            document.getElementById('acc-username').innerText = "Unavailable";
+            document.getElementById('acc-id').innerText = "Unavailable";
+            document.getElementById('ref-link').value = "Unavailable (Telegram Bot থেকে ওপেন করুন)";
+            document.getElementById('top-user-1').innerText = "Unavailable";
+            document.getElementById('top-amt-1').innerText = "৳ 0.00";
         } else {
-            const fullName = firstName + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name ? ' ' + window.Telegram.WebApp.initDataUnsafe.user.last_name : '');
+            const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
             
             document.getElementById('acc-name').innerText = fullName;
             document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
@@ -437,7 +421,7 @@
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
             
             document.getElementById('top-user-1').innerText = username;
-            document.getElementById('top-amt-1').innerText = "৳ 0.50";
+            document.getElementById('top-amt-1').innerText = "৳ 0.00";
         }
 
         let balance = 0.00;
@@ -456,6 +440,9 @@
             balance += amount;
             document.getElementById('balance').innerText = balance.toFixed(2);
             document.getElementById('acc-balance').innerText = balance.toFixed(2);
+            if (userId) {
+                document.getElementById('top-amt-1').innerText = "৳ " + balance.toFixed(2);
+            }
         }
 
         function copyRefLink() {
@@ -466,7 +453,7 @@
                 navigator.clipboard.writeText(refInput.value);
                 tg.showAlert("রেফারেল লিংক সফলভাবে কপি হয়েছে!");
             } else {
-                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি!");
+                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি! টেলিগ্রাম থেকে ওপেন করুন।");
             }
         }
 
@@ -529,6 +516,8 @@
                     if (adsWatched >= 100) {
                         btn.disabled = true;
                         btn.innerText = "আজকের অ্যাড দেখার লিমিট শেষ";
+                        document.getElementById('home-task1-status').innerText = "আজকের অ্যাড দেখার লিমিট শেষ";
+                        document.getElementById('home-task1-status').style.color = "#ff6b6b";
                     }
 
                     updateBalance(0.50);
@@ -598,4 +587,4 @@
         }
     </script>
 </body>
-    </html>
+</html>

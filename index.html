@@ -35,7 +35,6 @@
         .btn { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 13px; }
         .btn:active { transform: scale(0.95); }
         .btn-ad { width: 100%; padding: 12px; font-size: 14px; background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%); margin-top: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; border: none; }
-        .btn-disabled { width: 100%; padding: 12px; font-size: 14px; background: rgba(255, 255, 255, 0.15); color: #888; margin-top: 10px; cursor: not-allowed; border: none; border-radius: 10px; font-weight: 600; }
         
         .progress-info { display: flex; justify-content: space-between; font-size: 12px; color: #ccc; margin-bottom: 5px; }
         .progress-bar-container { width: 100%; background: rgba(0, 0, 0, 0.4); height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -56,8 +55,8 @@
         .scrollable-team-list::-webkit-scrollbar-thumb, .scrollable-withdraw-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
 
         .withdraw-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; }
-        .withdraw-item:last-child { border-bottom: none; }
         .badge-pending { font-size: 9px; background: rgba(255, 193, 7, 0.2); color: #ffc107; padding: 2px 6px; border-radius: 8px; }
+        .badge-approved { font-size: 9px; background: rgba(0, 255, 204, 0.2); color: #00ffcc; padding: 2px 6px; border-radius: 8px; }
 
         .ref-rules-box { background: rgba(0, 0, 0, 0.25); border: 1px dashed rgba(0, 255, 204, 0.3); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
         .ref-rules-box h5 { color: #00ffcc; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
@@ -95,7 +94,7 @@
         <div class="logo-text">AMI Income</div>
         
         <div class="notice-container">
-            <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে আনলিমিটেড ইনকাম করুন। সর্বনিম্ন ৩৫ টাকা থেকে সর্বোচ্চ ১০৫ টাকা পর্যন্ত পেমেন্ট নিতে পারবেন।</div>
+            <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে ইনকাম করুন।</div>
         </div>
 
         <a href="https://t.me/smia91427" target="_blank" class="support-badge" id="support-btn">
@@ -111,49 +110,9 @@
     <div class="container">
         <!-- 1. HOME PAGE -->
         <div id="home" class="page active">
-            <h3 style="margin-bottom: 10px; font-size: 15px;">ড্যাশবোর্ড ওভারভিউ (অ্যাড টাস্ক সমুহ)</h3>
-            
-            <!-- Task 1 (Active) -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ১</h4>
-                    <span style="font-size: 11px; color: #00ffcc;">রিওয়ার্ড: ৳০.১০</span>
-                </div>
-                <small id="home-task1-status" style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
-                <div class="progress-info" style="margin-top: 8px;">
-                    <span>দেখা হয়েছে</span>
-                    <span><span id="home-task1-count">0</span>/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="home-task1-progress" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <!-- Task 2 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ২</h4>
-                    <span style="font-size: 11px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">শীঘ্রই আসছে...</small>
-            </div>
-
-            <!-- Task 3 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ৩</h4>
-                    <span style="font-size: 11px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">শীঘ্রই আসছে...</small>
-            </div>
-
-            <!-- Task 4 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ৪</h4>
-                    <span style="font-size: 11px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">শীঘ্রই আসছে...</small>
+            <div class="card" style="text-align: center; padding: 25px 15px; background: linear-gradient(135deg, rgba(110,0,255,0.2) 0%, rgba(255,0,127,0.2) 100%); border: 1px solid rgba(0,255,204,0.3);">
+                <h3 style="font-size: 16px; color: #00ffcc; margin-bottom: 8px;">🌟 প্রিমিয়াম নোটিশ</h3>
+                <p style="font-size: 13px; color: #ffecd2; line-height: 1.6;">প্রতিদিন রাত ১২টার পরে নতুন করে অ্যাড টাস্কগুলো সম্পন্ন করতে পারবেন। নিয়মিত কাজ করুন এবং পেমেন্ট নিন!</p>
             </div>
 
             <div class="card">
@@ -184,7 +143,6 @@
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
-            <!-- Ad Task 1 (Active) -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
@@ -205,33 +163,6 @@
                     <h2 style="color: #00ffcc;" id="timer-text">00:03</h2>
                     <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
                 </div>
-            </div>
-
-            <!-- Ad Task 2 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
-                    <span style="font-size: 12px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <p style="font-size: 12px; color: #aaa;">শীঘ্রই আসছে...</p>
-            </div>
-
-            <!-- Ad Task 3 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
-                    <span style="font-size: 12px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <p style="font-size: 12px; color: #aaa;">শীঘ্রই আসছে...</p>
-            </div>
-
-            <!-- Ad Task 4 (Coming Soon) -->
-            <div class="card" style="opacity: 0.6;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
-                    <span style="font-size: 12px; color: #ff9f43;">Coming Soon</span>
-                </div>
-                <p style="font-size: 12px; color: #aaa;">শীঘ্রই আসছে...</p>
             </div>
         </div>
 
@@ -254,7 +185,6 @@
                     <label>টাকার পরিমাণ (সর্বনিম্ন ৳৩৫, সর্বোচ্চ ৳১০৫)</label>
                     <input type="number" id="pay-amount" placeholder="35">
                     <small style="color: #ff9f43; display: block; margin-top: 5px; font-size: 11px;">⚠️ প্রতিটি উইথড্রতে ৫ টাকা চার্জ কাটা হবে।</small>
-                    <small style="color: #00ffcc; display: block; margin-top: 3px; font-size: 11px;">🕒 উইথড্র রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।</small>
                 </div>
                 <button class="btn btn-ad" onclick="submitWithdraw()">Submit Withdraw Request</button>
             </div>
@@ -346,30 +276,9 @@
             userId = tg.initDataUnsafe.user.id;
             firstName = tg.initDataUnsafe.user.first_name || "User";
             username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
-        } else if (tg.initData) {
-            try {
-                const urlParams = new URLSearchParams(tg.initData);
-                const userStr = urlParams.get('user');
-                if (userStr) {
-                    const userObj = JSON.parse(userStr);
-                    userId = userObj.id;
-                    firstName = userObj.first_name || "User";
-                    username = userObj.username ? "@" + userObj.username : "@user_" + userId;
-                }
-            } catch (e) {
-                console.log("Parsing error", e);
-            }
         }
 
-        if (!userId) {
-            document.getElementById('acc-name').innerText = "Unavailable";
-            document.getElementById('acc-avatar').innerText = "U";
-            document.getElementById('acc-username').innerText = "Unavailable";
-            document.getElementById('acc-id').innerText = "Unavailable";
-            document.getElementById('ref-link').value = "Unavailable (Telegram Bot থেকে ওপেন করুন)";
-            document.getElementById('top-user-1').innerText = "Unavailable";
-            document.getElementById('top-amt-1').innerText = "৳ 0.00";
-        } else {
+        if (userId) {
             const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
             document.getElementById('acc-name').innerText = fullName;
             document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
@@ -377,7 +286,6 @@
             document.getElementById('acc-id').innerText = userId;
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
             document.getElementById('top-user-1').innerText = username;
-            document.getElementById('top-amt-1').innerText = "৳ 0.00";
         }
 
         let balance = 0.00;
@@ -405,11 +313,10 @@
             const refInput = document.getElementById('ref-link');
             if(refInput.value.includes("http")) {
                 refInput.select();
-                refInput.setSelectionRange(0, 99999);
                 navigator.clipboard.writeText(refInput.value);
                 tg.showAlert("রেফারেল লিংক সফলভাবে কপি হয়েছে!");
             } else {
-                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি! টেলিগ্রাম থেকে ওপেন করুন।");
+                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি!");
             }
         }
 
@@ -418,8 +325,6 @@
             if(refLink.includes("http")) {
                 const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("ঘরে বসে প্রতিদিন টাকা ইনকাম করুন! এখনই জয়েন করুন:")}`;
                 window.open(tgShareUrl, '_blank');
-            } else {
-                tg.showAlert("শেয়ার করার মতো কোনো লিংক পাওয়া যায়নি!");
             }
         }
 
@@ -434,13 +339,10 @@
         function startAd(btn) {
             if (adsWatched >= 100) {
                 tg.showAlert("আজকের মতো আপনার ১০০টি অ্যাড দেখার লিমিট শেষ!");
-                btn.disabled = true;
-                btn.innerText = "আজকের অ্যাড দেখার লিমিট শেষ";
                 return;
             }
 
-            const adUrl = btn.getAttribute('data-adurl') || "https://your-default-ad-link.com";
-            window.open(adUrl, "_blank");
+            window.open(btn.getAttribute('data-adurl') || "https://your-default-ad-link.com", "_blank");
 
             const timerBox = document.getElementById('ad-timer-box');
             const timerText = document.getElementById('timer-text');
@@ -461,22 +363,10 @@
                     timerBox.style.display = 'none';
                     
                     adsWatched++;
-                    
-                    document.getElementById('home-task1-count').innerText = adsWatched;
                     document.getElementById('task1-count').innerText = adsWatched;
-                    
-                    let progressPercent = adsWatched; 
-                    document.getElementById('home-task1-progress').style.width = progressPercent + '%';
-                    document.getElementById('task1-progress').style.width = progressPercent + '%';
+                    document.getElementById('task1-progress').style.width = adsWatched + '%';
 
-                    if (adsWatched >= 100) {
-                        btn.disabled = true;
-                        btn.innerText = "আজকের অ্যাড দেখার লিমিট শেষ";
-                        document.getElementById('home-task1-status').innerText = "আজকের অ্যাড দেখার লিমিট শেষ";
-                        document.getElementById('home-task1-status').style.color = "#ff6b6b";
-                    }
-
-                    updateBalance(0.10); // রিওয়ার্ড ১০ পয়সা সেট করা হলো
+                    updateBalance(0.10);
                     tg.showAlert("অ্যাড দেখা সম্পন্ন হয়েছে! ৳০.১০ যোগ করা হলো।");
                 }
             }, 1000);
@@ -511,8 +401,7 @@
             withdrawHistory.unshift(historyItem);
             renderWithdrawHistory();
 
-            tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! ২৪ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।");
-
+            tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
             document.getElementById('pay-number').value = '';
             document.getElementById('pay-amount').value = '35';
         }
@@ -526,15 +415,16 @@
 
             let html = '';
             withdrawHistory.forEach(item => {
+                let badgeClass = item.status === 'Approved' ? 'badge-approved' : 'badge-pending';
                 html += `
                     <div class="withdraw-item">
                         <div>
                             <strong>${item.method} (${item.number})</strong><br>
-                            <small style="color: #aaa; font-size: 10px;">${item.time}</small>
+                            <span style="color: #aaa; font-size: 10px;">${item.time}</span>
                         </div>
                         <div style="text-align: right;">
-                            <span style="color: #ff007f; font-weight: bold;">৳ ${item.amount}</span><br>
-                            <span class="badge-pending">${item.status}</span>
+                            <strong style="color: #00ffcc;">৳${item.amount}</strong><br>
+                            <span class="${badgeClass}">${item.status}</span>
                         </div>
                     </div>
                 `;

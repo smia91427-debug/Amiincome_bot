@@ -164,26 +164,25 @@
             </div>
         </div>
 
-        <!-- 3. AD EARN PAGE (ডাইনামিক অ্যাড লিংক সাপোর্টেড ৪টি টাস্ক) -->
+        <!-- 3. AD EARN PAGE -->
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
-            <!-- Ad Task 1 (Active with Progress Bar & Dynamic Link Support) -->
+            <!-- Ad Task 1 -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
-                    <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.৫০</span>
+                    <span style="font-size: 12px; color: #00ffcc;">দৈনিক লিমিট: ১০০টি</span>
                 </div>
                 
                 <div class="progress-info">
-                    <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
+                    <span>প্রোগ্রেস</span>
                     <span><span id="task1-count">0</span>/100</span>
                 </div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="task1-progress"></div>
                 </div>
 
-                <!-- data-adurl એટ্রিবিউট এ্যাডমিন প্যানেল থেকে লিংক কন্ট্রোল করার জন্য -->
                 <button class="btn btn-ad" id="watch-btn" data-adurl="https://your-monetag-direct-link-1.com" onclick="startAd(this)">Watch Ad</button>
                 
                 <div id="ad-timer-box">
@@ -192,7 +191,7 @@
                 </div>
             </div>
 
-            <!-- Ad Task 2 (Coming Soon & Dynamic Link Ready) -->
+            <!-- Ad Task 2 -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
@@ -208,11 +207,11 @@
                 <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
-            <!-- Ad Task 3 (Coming Soon & Dynamic Link Ready) -->
+            <!-- Ad Task 3 -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
-                    <span style="font-size: 12px; color: #888;">লک করা আছে</span>
+                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
                 </div>
                 <div class="progress-info">
                     <span>প্রোগ্রেস</span>
@@ -224,7 +223,7 @@
                 <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
-            <!-- Ad Task 4 (Coming Soon & Dynamic Link Ready) -->
+            <!-- Ad Task 4 -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
@@ -320,3 +319,68 @@
                 <div class="scrollable-team-list" id="team-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. MY ACCOUNT PAGE -->
+        <div id="account" class="page">
+            <h3 style="margin-bottom: 12px; font-size: 15px;">👤 আমার অ্যাকাউন্ট</h3>
+            
+            <div class="card profile-header">
+                <div class="avatar-big" id="acc-avatar">U</div>
+                <h3 id="acc-name" style="margin-bottom: 4px;">Loading...</h3>
+                <span class="badge-active" style="font-size: 12px;">● Active Account</span>
+            </div>
+
+            <div class="card">
+                <div class="info-row">
+                    <span style="color: #bbb;">ইউজারনেম</span>
+                    <strong id="acc-username" style="color: #ffecd2;">@loading</strong>
+                </div>
+                <div class="info-row">
+                    <span style="color: #bbb;">টেলিগ্রাম আইডি</span>
+                    <strong id="acc-id" style="color: #00d2ff;">Loading...</strong>
+                </div>
+                <div class="info-row">
+                    <span style="color: #bbb;">অ্যাকাউন্ট স্ট্যাটাস</span>
+                    <strong style="color: #00ffcc;">Active (ভেরিফাইড)</strong>
+                </div>
+                <div class="info-row">
+                    <span style="color: #bbb;">বর্তমান ব্যালেন্স</span>
+                    <strong style="color: #ff007f;">৳ <span id="acc-balance">0.00</span></strong>
+                </div>
+                <div class="info-row">
+                    <span style="color: #bbb;">মোট উইথড্র</span>
+                    <strong style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
+        <div class="nav-item" onclick="switchTab('tasks', this)"><span>📋</span>Tasks</div>
+        <div class="nav-item" onclick="switchTab('ads', this)"><span>📺</span>Ad Earn</div>
+        <div class="nav-item" onclick="switchTab('withdraw', this)"><span>💳</span>Withdraw</div>
+        <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>My Team</div>
+        <div class="nav-item" onclick="switchTab('account', this)"><span>👤</span>Account</div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let userId = "";
+        let firstName = "";
+        let username = "";
+
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
+            userId = tg.initDataUnsafe.user.id;
+            firstName = tg.initDataUnsafe.user.first_name || "Telegram User";
+            username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
+        } else if (tg.initData) {
+            try {
+                const urlParams = new URL

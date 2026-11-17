@@ -85,7 +85,7 @@
         .nav-item { text-align: center; color: #9e8fb2; font-size: 10px; cursor: pointer; transition: 0.2s; flex: 1; }
         .nav-item.active { color: #ff007f; font-weight: bold; }
         .nav-item span { display: block; font-size: 18px; margin-bottom: 2px; }
-        #ad-timer-box { display: none; text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; margin-top: 10px; }
+        .ad-timer-box { display: none; text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -139,16 +139,16 @@
             </div>
         </div>
 
-        <!-- 3. AD EARN PAGE -->
+        <!-- 3. AD EARN PAGE (চারটি অ্যাড টাস্ক কার্ডসহ) -->
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
+            <!-- Ad Task 1 -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
                     <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.১০</span>
                 </div>
-                
                 <div class="progress-info">
                     <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
                     <span><span id="task1-count">0</span>/100</span>
@@ -156,11 +156,69 @@
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="task1-progress" style="width: 0%;"></div>
                 </div>
+                <button class="btn-ad" id="watch-btn-1" data-adurl="https://your-monetag-direct-link-1.com" onclick="startAd(1, this)">Watch Ad</button>
+                <div class="ad-timer-box" id="ad-timer-box-1">
+                    <h2 style="color: #00ffcc;" id="timer-text-1">00:03</h2>
+                    <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
+                </div>
+            </div>
 
-                <button class="btn-ad" id="watch-btn" data-adurl="https://your-monetag-direct-link-1.com" onclick="startAd(this)">Watch Ad</button>
-                
-                <div id="ad-timer-box">
-                    <h2 style="color: #00ffcc;" id="timer-text">00:03</h2>
+            <!-- Ad Task 2 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
+                    <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.১০</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
+                    <span><span id="task2-count">0</span>/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="task2-progress" style="width: 0%;"></div>
+                </div>
+                <button class="btn-ad" id="watch-btn-2" data-adurl="https://your-monetag-direct-link-2.com" onclick="startAd(2, this)">Watch Ad</button>
+                <div class="ad-timer-box" id="ad-timer-box-2">
+                    <h2 style="color: #00ffcc;" id="timer-text-2">00:03</h2>
+                    <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
+                </div>
+            </div>
+
+            <!-- Ad Task 3 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
+                    <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.১০</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
+                    <span><span id="task3-count">0</span>/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="task3-progress" style="width: 0%;"></div>
+                </div>
+                <button class="btn-ad" id="watch-btn-3" data-adurl="https://your-monetag-direct-link-3.com" onclick="startAd(3, this)">Watch Ad</button>
+                <div class="ad-timer-box" id="ad-timer-box-3">
+                    <h2 style="color: #00ffcc;" id="timer-text-3">00:03</h2>
+                    <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
+                </div>
+            </div>
+
+            <!-- Ad Task 4 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
+                    <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.১০</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
+                    <span><span id="task4-count">0</span>/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="task4-progress" style="width: 0%;"></div>
+                </div>
+                <button class="btn-ad" id="watch-btn-4" data-adurl="https://your-monetag-direct-link-4.com" onclick="startAd(4, this)">Watch Ad</button>
+                <div class="ad-timer-box" id="ad-timer-box-4">
+                    <h2 style="color: #00ffcc;" id="timer-text-4">00:03</h2>
                     <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
                 </div>
             </div>
@@ -289,7 +347,7 @@
         }
 
         let balance = 0.00;
-        let adsWatched = 0;
+        let adsWatched = { 1: 0, 2: 0, 3: 0, 4: 0 };
         let withdrawHistory = [];
         let totalWithdrawnAmount = 0.00;
 
@@ -336,16 +394,16 @@
             tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ৳" + reward + " যোগ হয়েছে।");
         }
 
-        function startAd(btn) {
-            if (adsWatched >= 100) {
-                tg.showAlert("আজকের মতো আপনার ১০০টি অ্যাড দেখার লিমিট শেষ!");
+        function startAd(taskNum, btn) {
+            if (adsWatched[taskNum] >= 100) {
+                tg.showAlert("আজকের মতো এই টাস্কের ১০০টি অ্যাড দেখার লিমিট শেষ!");
                 return;
             }
 
             window.open(btn.getAttribute('data-adurl') || "https://your-default-ad-link.com", "_blank");
 
-            const timerBox = document.getElementById('ad-timer-box');
-            const timerText = document.getElementById('timer-text');
+            const timerBox = document.getElementById(`ad-timer-box-${taskNum}`);
+            const timerText = document.getElementById(`timer-text-${taskNum}`);
 
             btn.style.display = 'none';
             timerBox.style.display = 'block';
@@ -362,12 +420,12 @@
                     btn.style.display = 'block';
                     timerBox.style.display = 'none';
                     
-                    adsWatched++;
-                    document.getElementById('task1-count').innerText = adsWatched;
-                    document.getElementById('task1-progress').style.width = adsWatched + '%';
+                    adsWatched[taskNum]++;
+                    document.getElementById(`task${taskNum}-count`).innerText = adsWatched[taskNum];
+                    document.getElementById(`task${taskNum}-progress`).style.width = adsWatched[taskNum] + '%';
 
                     updateBalance(0.10);
-                    tg.showAlert("অ্যাড দেখা সম্পন্ন হয়েছে! ৳০.১০ যোগ করা হলো।");
+                    tg.showAlert(`Ad Task ${taskNum} সম্পন্ন হয়েছে! ৳০.১০ যোগ করা হলো।`);
                 }
             }, 1000);
         }
@@ -433,4 +491,4 @@
         }
     </script>
 </body>
-</html>
+    </html>

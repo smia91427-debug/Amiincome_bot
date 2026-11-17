@@ -9,11 +9,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, #1a0b2e 0%, #2d1457 50%, #16092b 100%); color: #ffffff; min-height: 100vh; padding-bottom: 85px; }
         
-        /* হেডার ও চলমান নোটিশ */
         .header { padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 10px; }
         .logo-text { font-weight: bold; font-size: 15px; color: #ffecd2; white-space: nowrap; }
         
-        /* চলমান নোটিশ স্টাইল */
         .notice-container { flex-grow: 1; overflow: hidden; background: rgba(0, 0, 0, 0.25); border-radius: 20px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
         .notice-text { display: inline-block; white-space: nowrap; animation: marquee 28s linear infinite; font-size: 11px; color: #00ffcc; }
         @keyframes marquee { 
@@ -21,11 +19,9 @@
             100% { transform: translateX(-100%); } 
         }
 
-        /* সাপোর্ট বাটন */
         .support-badge { font-size: 11px; color: #ffecd2; white-space: nowrap; background: linear-gradient(135deg, #ff007f 0%, #7f00ff 100%); padding: 5px 10px; border-radius: 14px; text-decoration: none; display: flex; align-items: center; gap: 4px; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 10px rgba(255, 0, 127, 0.3); }
         .support-badge:active { transform: scale(0.95); }
 
-        /* ব্যালেন্স কার্ড */
         .balance-card { margin: 18px 20px; padding: 22px; border-radius: 20px; background: linear-gradient(135deg, #6e00ff 0%, #ff007f 100%); box-shadow: 0 10px 25px rgba(110, 0, 255, 0.4); text-align: center; }
         .balance-card p { font-size: 13px; opacity: 0.9; margin-bottom: 4px; }
         .balance-card h1 { font-size: 34px; font-weight: 700; }
@@ -41,7 +37,6 @@
         .btn-ad { width: 100%; padding: 12px; font-size: 14px; background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%); margin-top: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; border: none; }
         .btn-disabled { width: 100%; padding: 12px; font-size: 14px; background: rgba(255, 255, 255, 0.15); color: #888; margin-top: 10px; cursor: not-allowed; border: none; border-radius: 10px; font-weight: 600; }
         
-        /* প্রোগ্রেস বার */
         .progress-info { display: flex; justify-content: space-between; font-size: 12px; color: #ccc; margin-bottom: 5px; }
         .progress-bar-container { width: 100%; background: rgba(0, 0, 0, 0.4); height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
         .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #00ffcc, #00d2ff); transition: width 0.3s ease; }
@@ -50,7 +45,6 @@
         .input-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #ccc; }
         .input-group input, .input-group select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.3); color: white; font-size: 14px; outline: none; }
 
-        /* লিডারবোর্ড ও টিম লিস্ট */
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; }
         .list-item:last-child { border-bottom: none; }
         .rank { font-weight: bold; color: #ff007f; width: 28px; }
@@ -88,7 +82,6 @@
         .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; }
         .info-row:last-child { border-bottom: none; }
 
-        /* বটম ন্যাভবার */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(20, 9, 43, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255, 255, 255, 0.1); z-index: 999; }
         .nav-item { text-align: center; color: #9e8fb2; font-size: 10px; cursor: pointer; transition: 0.2s; flex: 1; }
         .nav-item.active { color: #ff007f; font-weight: bold; }
@@ -98,7 +91,6 @@
 </head>
 <body>
 
-    <!-- হেডার ও সাপোর্ট বাটন (@smia91427 সরাসরি যুক্ত) -->
     <div class="header">
         <div class="logo-text">AMI Income</div>
         
@@ -121,7 +113,6 @@
         <div id="home" class="page active">
             <h3 style="margin-bottom: 10px; font-size: 15px;">ড্যাশবোর্ড ওভারভিউ (অ্যাড টাস্ক সমুহ)</h3>
             
-            <!-- Home Task 1 -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ১</h4>
@@ -137,55 +128,6 @@
                 </div>
             </div>
 
-            <!-- Home Task 2 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ২</h4>
-                    <span style="font-size: 11px; color: #888;">কামিং সুন</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
-                <div class="progress-info" style="margin-top: 8px;">
-                    <span>দেখা হয়েছে</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <!-- Home Task 3 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ৩</h4>
-                    <span style="font-size: 11px; color: #888;">কামিং সুন</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
-                <div class="progress-info" style="margin-top: 8px;">
-                    <span>দেখা হয়েছে</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <!-- Home Task 4 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">অ্যাড টাস্ক ৪</h4>
-                    <span style="font-size: 11px; color: #888;">কামিং সুন</span>
-                </div>
-                <small style="color: #bbb; font-size: 11px;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
-                <div class="progress-info" style="margin-top: 8px;">
-                    <span>দেখা হয়েছে</span>
-                    <span>0/100</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <!-- রিয়েল টপ আর্নার্স লিডারবোর্ড -->
             <div class="card">
                 <h3 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">🏆 সেরা ৫ টপ আর্নার্স</h3>
                 <div id="real-leaderboard-list">
@@ -214,7 +156,6 @@
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
-            <!-- Ad Task 1 -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
@@ -236,42 +177,9 @@
                     <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
                 </div>
             </div>
-
-            <!-- Ad Task 2 -->
-            <div class="card" style="opacity: 0.7;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
-                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
-                </div>
-                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
-                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
-                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
-            </div>
-
-            <!-- Ad Task 3 -->
-            <div class="card" style="opacity: 0.7;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
-                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
-                </div>
-                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
-                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
-                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
-            </div>
-
-            <!-- Ad Task 4 -->
-            <div class="card" style="opacity: 0.7;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
-                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
-                </div>
-                <div class="progress-info"><span>প্রোগ্রেস</span><span>0/100</span></div>
-                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div>
-                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
-            </div>
         </div>
 
-        <!-- 4. WITHDRAW PAGE -->
+        <!-- 4. WITHDRAW PAGE (সঠিক লিমিট ও ২৪ ঘণ্টার নোটিশ যুক্ত) -->
         <div id="withdraw" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">টাকা উত্তোলন (Withdraw)</h3>
             <div class="card">
@@ -290,11 +198,11 @@
                     <label>টাকার পরিমাণ (সর্বনিম্ন ৳৩৫, সর্বোচ্চ ৳১০৫)</label>
                     <input type="number" id="pay-amount" placeholder="35">
                     <small style="color: #ff9f43; display: block; margin-top: 5px; font-size: 11px;">⚠️ প্রতিটি উইথড্রতে ৫ টাকা চার্জ কাটা হবে।</small>
+                    <small style="color: #00ffcc; display: block; margin-top: 3px; font-size: 11px;">🕒 উইথড্র রিকোয়েস্ট করার ২৪ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।</small>
                 </div>
                 <button class="btn btn-ad" onclick="submitWithdraw()">Submit Withdraw Request</button>
             </div>
 
-            <!-- উইথড্র হিস্টরি কার্ড -->
             <div class="card">
                 <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">📜 উইথড্র হিস্টরি</h4>
                 <div class="scrollable-withdraw-list" id="withdraw-history-list">
@@ -311,7 +219,6 @@
             
             <div class="card">
                 <h4 style="font-size: 14px; color: #ffecd2;">আপনার রেফারেল লিংক</h4>
-                <p style="font-size: 11px; color: #bbb; margin-top: 3px;">বন্ধুদের ইনভাইট করুন এবং তাদের আয়ে কমিশন পান!</p>
                 <div class="ref-input-box">
                     <input type="text" id="ref-link" value="" readonly>
                 </div>
@@ -338,9 +245,7 @@
             <div class="card">
                 <h4 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
                 <div class="scrollable-team-list" id="team-list">
-                    <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
-                        এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
-                    </div>
+                    <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">এখনো কোনো টিম মেম্বার যুক্ত হয়নি।</div>
                 </div>
             </div>
         </div>
@@ -358,14 +263,12 @@
             <div class="card">
                 <div class="info-row"><span style="color: #bbb;">ইউজারনেম</span><strong id="acc-username" style="color: #ffecd2;">Unavailable</strong></div>
                 <div class="info-row"><span style="color: #bbb;">টেলিগ্রাম আইডি</span><strong id="acc-id" style="color: #00d2ff;">Unavailable</strong></div>
-                <div class="info-row"><span style="color: #bbb;">অ্যাকাউন্ট স্ট্যাটাস</span><strong style="color: #00ffcc;">Active (ভেরিফাইড)</strong></div>
                 <div class="info-row"><span style="color: #bbb;">বর্তমান ব্যালেন্স</span><strong style="color: #ff007f;">৳ <span id="acc-balance">0.00</span></strong></div>
                 <div class="info-row"><span style="color: #bbb;">মোট উইথড্র</span><strong style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong></div>
             </div>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
         <div class="nav-item" onclick="switchTab('tasks', this)"><span>📋</span>Tasks</div>
@@ -412,14 +315,11 @@
             document.getElementById('top-amt-1').innerText = "৳ 0.00";
         } else {
             const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
-            
             document.getElementById('acc-name').innerText = fullName;
             document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
             document.getElementById('acc-username').innerText = username;
             document.getElementById('acc-id').innerText = userId;
-
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
-            
             document.getElementById('top-user-1').innerText = username;
             document.getElementById('top-amt-1').innerText = "৳ 0.00";
         }
@@ -555,7 +455,7 @@
             withdrawHistory.unshift(historyItem);
             renderWithdrawHistory();
 
-            tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
+            tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! ২৪ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।");
 
             document.getElementById('pay-number').value = '';
             document.getElementById('pay-amount').value = '35';

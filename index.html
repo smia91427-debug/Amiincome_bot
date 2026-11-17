@@ -21,7 +21,9 @@
             100% { transform: translateX(-100%); } 
         }
 
-        .online-badge { font-size: 11px; color: #00ffcc; white-space: nowrap; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 12px; }
+        /* সাপোর্ট বাটন স্টাইল */
+        .support-badge { font-size: 11px; color: #ffecd2; white-space: nowrap; background: linear-gradient(135deg, #ff007f 0%, #7f00ff 100%); padding: 5px 10px; border-radius: 14px; text-decoration: none; display: flex; align-items: center; gap: 4px; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 10px rgba(255, 0, 127, 0.3); }
+        .support-badge:active { transform: scale(0.95); }
 
         /* ব্যালেন্স কার্ড */
         .balance-card { margin: 18px 20px; padding: 22px; border-radius: 20px; background: linear-gradient(135deg, #6e00ff 0%, #ff007f 100%); box-shadow: 0 10px 25px rgba(110, 0, 255, 0.4); text-align: center; }
@@ -101,7 +103,7 @@
 </head>
 <body>
 
-    <!-- হেডার ও চলমান নোটিশ বার -->
+    <!-- হেডার, চলমান নোটিশ ও সাপোর্ট বাটন -->
     <div class="header">
         <div class="logo-text">AMI Income</div>
         
@@ -109,7 +111,10 @@
             <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে আনলিমিটেড ইনকাম করুন। সর্বনিম্ন ৩৫ টাকা থেকে সর্বোচ্চ ১০৫ টাকা পর্যন্ত পেমেন্ট নিতে পারবেন। পেমেন্ট সংক্রান্ত যেকোনো সমস্যায় সাপোর্ট গ্রুপে যোগাযোগ করুন।</div>
         </div>
 
-        <div class="online-badge">[x]  Online</div>
+        <!-- সাপোর্ট বাটন (হেডফোন ও মাথার আইকনসহ) -->
+        <a href="https://t.me/your_support_username" target="_blank" class="support-badge" id="support-btn">
+            🎧 সাপোর্ট
+        </a>
     </div>
 
     <div class="balance-card">
@@ -124,9 +129,9 @@
             <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <h4 style="font-size: 14px;">আজকের অ্যাড দেখা হয়েছে</h4>
-                    <small style="color: #bbb;">দৈনিক লিমিট: ২০টি অ্যাড</small>
+                    <small style="color: #bbb;">দৈনিক লিমিট: ১০০টি অ্যাড</small>
                 </div>
-                <h3 style="color: #00d2ff;"><span id="ads-watched">0</span>/20</h3>
+                <h3 style="color: #00d2ff;"><span id="home-ads-watched">0</span>/100</h3>
             </div>
 
             <!-- শীর্ষ ১০ লিডারবোর্ড -->
@@ -159,11 +164,11 @@
             </div>
         </div>
 
-        <!-- 3. AD EARN PAGE -->
+        <!-- 3. AD EARN PAGE (ডাইনামিক অ্যাড লিংক সাপোর্টেড ৪টি টাস্ক) -->
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
-            <!-- Ad Task 1 (Active with Progress Bar) -->
+            <!-- Ad Task 1 (Active with Progress Bar & Dynamic Link Support) -->
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
@@ -178,15 +183,16 @@
                     <div class="progress-bar-fill" id="task1-progress"></div>
                 </div>
 
-                <button class="btn btn-ad" id="watch-btn" onclick="startAd()">Watch Ad</button>
+                <!-- data-adurl એટ্রিবিউট এ্যাডমিন প্যানেল থেকে লিংক কন্ট্রোল করার জন্য -->
+                <button class="btn btn-ad" id="watch-btn" data-adurl="https://your-monetag-direct-link-1.com" onclick="startAd(this)">Watch Ad</button>
                 
                 <div id="ad-timer-box">
-                    <h2 style="color: #00ffcc;" id="timer-text">00:10</h2>
+                    <h2 style="color: #00ffcc;" id="timer-text">00:03</h2>
                     <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
                 </div>
             </div>
 
-            <!-- Ad Task 2 (Coming Soon) -->
+            <!-- Ad Task 2 (Coming Soon & Dynamic Link Ready) -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
@@ -199,14 +205,14 @@
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
-                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
+                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
-            <!-- Ad Task 3 (Coming Soon) -->
+            <!-- Ad Task 3 (Coming Soon & Dynamic Link Ready) -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
-                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
+                    <span style="font-size: 12px; color: #888;">লک করা আছে</span>
                 </div>
                 <div class="progress-info">
                     <span>প্রোগ্রেস</span>
@@ -215,10 +221,10 @@
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
-                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
+                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
 
-            <!-- Ad Task 4 (Coming Soon) -->
+            <!-- Ad Task 4 (Coming Soon & Dynamic Link Ready) -->
             <div class="card" style="opacity: 0.7;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
@@ -231,7 +237,7 @@
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
-                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
+                <button class="btn-disabled" data-adurl="" disabled>Coming Soon 🔒</button>
             </div>
         </div>
 
@@ -314,245 +320,3 @@
                 <div class="scrollable-team-list" id="team-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. MY ACCOUNT PAGE -->
-        <div id="account" class="page">
-            <h3 style="margin-bottom: 12px; font-size: 15px;">👤 আমার অ্যাকাউন্ট</h3>
-            
-            <div class="card profile-header">
-                <div class="avatar-big" id="acc-avatar">U</div>
-                <h3 id="acc-name" style="margin-bottom: 4px;">Loading...</h3>
-                <span class="badge-active" style="font-size: 12px;">[x]  Active Account</span>
-            </div>
-
-            <div class="card">
-                <div class="info-row">
-                    <span style="color: #bbb;">ইউজারনেম</span>
-                    <strong id="acc-username" style="color: #ffecd2;">@loading</strong>
-                </div>
-                <div class="info-row">
-                    <span style="color: #bbb;">টেলিগ্রাম আইডি</span>
-                    <strong id="acc-id" style="color: #00d2ff;">Loading...</strong>
-                </div>
-                <div class="info-row">
-                    <span style="color: #bbb;">অ্যাকাউন্ট স্ট্যাটাস</span>
-                    <strong style="color: #00ffcc;">Active (ভেরিফাইড)</strong>
-                </div>
-                <div class="info-row">
-                    <span style="color: #bbb;">বর্তমান ব্যালেন্স</span>
-                    <strong style="color: #ff007f;">৳ <span id="acc-balance">0.00</span></strong>
-                </div>
-                <div class="info-row">
-                    <span style="color: #bbb;">মোট উইথড্র</span>
-                    <strong style="color: #fff;">৳ <span id="total-withdraw">0.00</span></strong>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home', this)"><span>🏠</span>Home</div>
-        <div class="nav-item" onclick="switchTab('tasks', this)"><span>📋</span>Tasks</div>
-        <div class="nav-item" onclick="switchTab('ads', this)"><span>📺</span>Ad Earn</div>
-        <div class="nav-item" onclick="switchTab('withdraw', this)"><span>💳</span>Withdraw</div>
-        <div class="nav-item" onclick="switchTab('team', this)"><span>👥</span>My Team</div>
-        <div class="nav-item" onclick="switchTab('account', this)"><span>👤</span>Account</div>
-    </div>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-
-        let userId = "";
-        let firstName = "";
-        let username = "";
-
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
-            userId = tg.initDataUnsafe.user.id;
-            firstName = tg.initDataUnsafe.user.first_name || "Telegram User";
-            username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
-        } else if (tg.initData) {
-            try {
-                const urlParams = new URLSearchParams(tg.initData);
-                const userStr = urlParams.get('user');
-                if (userStr) {
-                    const userObj = JSON.parse(userStr);
-                    userId = userObj.id;
-                    firstName = userObj.first_name || "Telegram User";
-                    username = userObj.username ? "@" + userObj.username : "@user_" + userId;
-                }
-            } catch (e) {
-                console.log("Parsing error", e);
-            }
-        }
-
-        if (!userId) {
-            document.getElementById('acc-name').innerText = "Telegram User";
-            document.getElementById('acc-avatar').innerText = "T";
-            document.getElementById('acc-username').innerText = "@telegram_user";
-            document.getElementById('acc-id').innerText = "Not Available";
-            document.getElementById('ref-link').value = "দয়া করে টেলিগ্রাম বট থেকে ওপেন করুন";
-        } else {
-            const fullName = firstName + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name ? ' ' + window.Telegram.WebApp.initDataUnsafe.user.last_name : '');
-            
-            document.getElementById('acc-name').innerText = fullName;
-            document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
-            document.getElementById('acc-username').innerText = username;
-            document.getElementById('acc-id').innerText = userId;
-
-            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
-        }
-
-        let balance = 0.00;
-        let adsWatched = 0;
-        let withdrawHistory = [];
-        let totalWithdrawnAmount = 0.00;
-
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            el.classList.add('active');
-        }
-
-        function updateBalance(amount) {
-            balance += amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('acc-balance').innerText = balance.toFixed(2);
-        }
-
-        function copyRefLink() {
-            const refInput = document.getElementById('ref-link');
-            if(refInput.value.includes("http")) {
-                refInput.select();
-                refInput.setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(refInput.value);
-                tg.showAlert("রেফারেল লিংক সফলভাবে কপি হয়েছে!");
-            } else {
-                tg.showAlert("সঠিক রেফারেল লিংক পাওয়া যায়নি!");
-            }
-        }
-
-        function shareRefLink() {
-            const refLink = document.getElementById('ref-link').value;
-            if(refLink.includes("http")) {
-                const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("ঘরে বসে প্রতিদিন টাকা ইনকাম করুন! এখনই জয়েন করুন:")}`;
-                window.open(tgShareUrl, '_blank');
-            } else {
-                tg.showAlert("শেয়ার করার মতো কোনো লিংক পাওয়া যায়নি!");
-            }
-        }
-
-        function completeTask(reward, btn) {
-            btn.disabled = true;
-            btn.innerText = "Done ✓";
-            btn.style.background = "#28a745";
-            updateBalance(reward);
-            tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ৳" + reward + " যোগ হয়েছে।");
-        }
-
-        function startAd() {
-            if (adsWatched >= 100) {
-                tg.showAlert("আজকের মতো আপনার ১০০টি অ্যাড দেখার লিমিট শেষ!");
-                return;
-            }
-            window.open("https://your-monetag-direct-link.com", "_blank");
-
-            const btn = document.getElementById('watch-btn');
-            const timerBox = document.getElementById('ad-timer-box');
-            const timerText = document.getElementById('timer-text');
-
-            btn.style.display = 'none';
-            timerBox.style.display = 'block';
-
-            let timeLeft = 10;
-            const countdown = setInterval(() => {
-                timeLeft--;
-                timerText.innerText = "00:0" + timeLeft;
-
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    btn.style.display = 'block';
-                    timerBox.style.display = 'none';
-                    
-                    adsWatched++;
-                    document.getElementById('ads-watched').innerText = adsWatched;
-                    document.getElementById('task1-count').innerText = adsWatched;
-                    
-                    // প্রোগ্রেস বার আপডেট করার লজিক (১% করে ১০০% পর্যন্ত)
-                    let progressPercent = adsWatched; 
-                    document.getElementById('task1-progress').style.width = progressPercent + '%';
-
-                    updateBalance(0.50);
-                    tg.showAlert("অ্যাড দেখা সম্পন্ন হয়েছে! ৳০.৫০ যোগ করা হলো।");
-                }
-            }, 1000);
-        }
-
-        function submitWithdraw() {
-            const method = document.getElementById('pay-method').value;
-            const num = document.getElementById('pay-number').value;
-            const amt = parseFloat(document.getElementById('pay-amount').value);
-
-            if (!num || num.length < 11) { tg.showAlert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন!"); return; }
-            if (isNaN(amt) || amt < 35 || amt > 105) { tg.showAlert("উইথড্র অ্যামাউন্ট সর্বনিম্ন ৩৫ টাকা এবং সর্বোচ্চ ১০৫ টাকা হতে হবে!"); return; }
-            if (amt > balance) { tg.showAlert("আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই!"); return; }
-
-            balance -= amt;
-            updateBalance(0);
-
-            totalWithdrawnAmount += amt;
-            document.getElementById('total-withdraw').innerText = totalWithdrawnAmount.toFixed(2);
-
-            const now = new Date();
-            const timeString = now.toLocaleDateString('bn-BD') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const historyItem = {
-                method: method.toUpperCase(),
-                number: num,
-                amount: amt.toFixed(2),
-                time: timeString,
-                status: 'Pending'
-            };
-
-            withdrawHistory.unshift(historyItem);
-            renderWithdrawHistory();
-
-            tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
-
-            document.getElementById('pay-number').value = '';
-            document.getElementById('pay-amount').value = '35';
-        }
-
-        function renderWithdrawHistory() {
-            const listEl = document.getElementById('withdraw-history-list');
-            if (withdrawHistory.length === 0) {
-                listEl.innerHTML = `<div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">এখনো কোনো উইথড্র রিকোয়েস্ট করা হয়নি।</div>`;
-                return;
-            }
-
-            let html = '';
-            withdrawHistory.forEach(item => {
-                html += `
-                    <div class="withdraw-item">
-                        <div>
-                            <strong>${item.method} (${item.number})</strong><br>
-                            <small style="color: #aaa; font-size: 10px;">${item.time}</small>
-                        </div>
-                        <div style="text-align: right;">
-                            <span style="color: #ff007f; font-weight: bold;">৳ ${item.amount}</span><br>
-                            <span class="badge-pending">${item.status}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            listEl.innerHTML = html;
-        }
-    </script>
-</body>
-</html>

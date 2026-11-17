@@ -163,9 +163,10 @@ async def cmd_admin(message: types.Message):
         InlineKeyboardButton("💰 Withdraw Review", callback_data="admin_withdraws"),
         InlineKeyboardButton("🔔 Change Notice", callback_data="admin_change_notice"),
         InlineKeyboardButton("📝 Manage Tasks", callback_data="admin_tasks"),
-        InlineKeyboardButton("💳 Referral Rate", callback_data="admin_ref_rate")
+        InlineKeyboardButton("💳 Referral Rate", callback_data="admin_ref_rate"),
+        InlineKeyboardButton("🚨 Multi-Account Check", callback_data="admin_fraud_check")
     )
-    await message.reply("🛠 **প্রফেশনাল অ্যাডমিন প্যানেল:**", reply_markup=keyboard)
+    await message.reply("🛠 **প্রফেশনাল অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে সিলেক্ট করুন:", reply_markup=keyboard)
 
 # 1. Withdraw Review System
 @dp.callback_query_handler(text="admin_withdraws")
@@ -318,7 +319,7 @@ async def save_ad_task_url(message: types.Message, state: FSMContext):
     await state.finish()
     await message.reply(f"✅ সফলভাবে সাবমিট হয়ে গেছে! Ad Task {task_num}-এর নতুন লিংক আপডেট করা হয়েছে:\n`{new_url}`", parse_mode="Markdown")
 
-# User List & Broadcast
+# User List & Broadcast & Referral Rate & Fraud Check
 @dp.callback_query_handler(text="admin_users_list")
 async def admin_users_list(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -368,6 +369,24 @@ async def execute_broadcast(message: types.Message, state: FSMContext):
             pass
     await message.reply(f"✅ সফলভাবে {sent} জনের কাছে পাঠানো হয়েছে!")
 
+@dp.callback_query_handler(text="admin_ref_rate")
+async def admin_ref_rate(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    conn = sqlite3.connect('bot_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT value FROM settings WHERE key = 'ref_bonus'")
+    row = cursor.fetchone()
+    current_bonus = row[0] if row else "5.0"
+    conn.close()
+    await callback.message.edit_text(f"💰 বর্তমান রেফার বোনাস: `{current_bonus}` টাকা", reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton("🔙 Back", callback_data="back_admin")))
+
+@dp.callback_query_handler(text="admin_fraud_check")
+async def admin_fraud_check(callback: types.CallbackQuery):
+    if callback.from_user.id != ADMIN_ID:
+        return
+    await callback.answer("✅ মাল্টি-অ্যাকাউন্ট চেকিং সিস্টেম সক্রিয় আছে।", show_alert=True)
+
 @dp.callback_query_handler(text="back_admin")
 async def back_admin(callback: types.CallbackQuery):
     if callback.from_user.id != ADMIN_ID:
@@ -379,9 +398,10 @@ async def back_admin(callback: types.CallbackQuery):
         InlineKeyboardButton("💰 Withdraw Review", callback_data="admin_withdraws"),
         InlineKeyboardButton("🔔 Change Notice", callback_data="admin_change_notice"),
         InlineKeyboardButton("📝 Manage Tasks", callback_data="admin_tasks"),
-        InlineKeyboardButton("💳 Referral Rate", callback_data="admin_ref_rate")
+        InlineKeyboardButton("💳 Referral Rate", callback_data="admin_ref_rate"),
+        InlineKeyboardButton("🚨 Multi-Account Check", callback_data="admin_fraud_check")
     )
-    await callback.message.edit_text("🛠 **অ্যাডমিন প্যানেল:**", reply_markup=keyboard)
+    await callback.message.edit_text("🛠 **প্রফেশনাল অ্যাডমিন প্যানেলে স্বাগতম বস!**\nনিচের অপশনগুলো থেকে সিলেক্ট করুন:", reply_markup=keyboard)
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

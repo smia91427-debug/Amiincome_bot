@@ -36,8 +36,14 @@
         .card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 16px; padding: 16px; margin-bottom: 15px; }
         .btn { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 13px; }
         .btn:active { transform: scale(0.95); }
-        .btn-ad { width: 100%; padding: 14px; font-size: 15px; background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%); margin-top: 12px; }
+        .btn-ad { width: 100%; padding: 12px; font-size: 14px; background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%); margin-top: 10px; border-radius: 10px; }
+        .btn-disabled { width: 100%; padding: 12px; font-size: 14px; background: rgba(255, 255, 255, 0.15); color: #888; margin-top: 10px; cursor: not-allowed; border: none; border-radius: 10px; font-weight: 600; }
         
+        /* প্রোগ্রেস বা লোডিং বার স্টাইল */
+        .progress-info { display: flex; justify-content: space-between; font-size: 12px; color: #ccc; margin-bottom: 5px; }
+        .progress-bar-container { width: 100%; background: rgba(0, 0, 0, 0.4); height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #00ffcc, #00d2ff); transition: width 0.3s ease; }
+
         .input-group { margin-bottom: 14px; }
         .input-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #ccc; }
         .input-group input, .input-group select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.3); color: white; font-size: 14px; outline: none; }
@@ -90,7 +96,7 @@
         .nav-item { text-align: center; color: #9e8fb2; font-size: 10px; cursor: pointer; transition: 0.2s; flex: 1; }
         .nav-item.active { color: #ff007f; font-weight: bold; }
         .nav-item span { display: block; font-size: 18px; margin-bottom: 2px; }
-        #ad-timer-box { display: none; text-align: center; padding: 18px; background: rgba(0, 0, 0, 0.5); border-radius: 15px; margin-top: 12px; }
+        #ad-timer-box { display: none; text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -100,10 +106,10 @@
         <div class="logo-text">AMI Income</div>
         
         <div class="notice-container">
-            <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে আনলিমিটেড ইনকাম করুন। সর্বনিম্ন ১৫ টাকা হলে বিকাশ/নগদে পেমেন্ট নিতে পারবেন। পেমেন্ট সংক্রান্ত যেকোনো সমস্যায় সাপোর্ট গ্রুপে যোগাযোগ করুন।</div>
+            <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে আনলিমিটেড ইনকাম করুন। সর্বনিম্ন ৩৫ টাকা থেকে সর্বোচ্চ ১০৫ টাকা পর্যন্ত পেমেন্ট নিতে পারবেন। পেমেন্ট সংক্রান্ত যেকোনো সমস্যায় সাপোর্ট গ্রুপে যোগাযোগ করুন।</div>
         </div>
 
-        <div class="online-badge">● Online</div>
+        <div class="online-badge">[x]  Online</div>
     </div>
 
     <div class="balance-card">
@@ -156,13 +162,76 @@
         <!-- 3. AD EARN PAGE -->
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
-            <div class="card" style="text-align: center;">
-                <p style="color: #ddd; font-size: 13px; margin-bottom: 8px;">প্রতিটি অ্যাড ১০ সেকেন্ড দেখলে পাবেন <b>৳ ০.৫০</b></p>
-                <button class="btn btn-ad" id="watch-btn" onclick="startAd()">📺 Watch Ad & Earn (৳0.50)</button>
+            
+            <!-- Ad Task 1 (Active with Progress Bar) -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 1</h4>
+                    <span style="font-size: 12px; color: #00ffcc;">রিওয়ার্ড: ৳০.৫০</span>
+                </div>
+                
+                <div class="progress-info">
+                    <span>প্রোগ্রেস (দৈনিক ১০০টি)</span>
+                    <span><span id="task1-count">0</span>/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="task1-progress"></div>
+                </div>
+
+                <button class="btn btn-ad" id="watch-btn" onclick="startAd()">Watch Ad</button>
+                
                 <div id="ad-timer-box">
                     <h2 style="color: #00ffcc;" id="timer-text">00:10</h2>
-                    <p style="font-size: 12px; margin-top: 5px;">অ্যাড লোড হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</p>
+                    <p style="font-size: 12px; margin-top: 4px;">অ্যাড লোড হচ্ছে, অপেক্ষা করুন...</p>
                 </div>
+            </div>
+
+            <!-- Ad Task 2 (Coming Soon) -->
+            <div class="card" style="opacity: 0.7;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 2</h4>
+                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস</span>
+                    <span>0/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
+            </div>
+
+            <!-- Ad Task 3 (Coming Soon) -->
+            <div class="card" style="opacity: 0.7;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 3</h4>
+                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস</span>
+                    <span>0/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
+            </div>
+
+            <!-- Ad Task 4 (Coming Soon) -->
+            <div class="card" style="opacity: 0.7;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h4 style="font-size: 14px; color: #ffecd2;">Ad Task 4</h4>
+                    <span style="font-size: 12px; color: #888;">লক করা আছে</span>
+                </div>
+                <div class="progress-info">
+                    <span>প্রোগ্রেস</span>
+                    <span>0/100</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+                <button class="btn-disabled" disabled>Coming Soon 🔒</button>
             </div>
         </div>
 
@@ -182,8 +251,9 @@
                     <input type="number" id="pay-number" placeholder="017XXXXXXXX">
                 </div>
                 <div class="input-group">
-                    <label>টাকার পরিমাণ (সর্বনিম্ন ৳১৫)</label>
-                    <input type="number" id="pay-amount" placeholder="15">
+                    <label>টাকার পরিমাণ (সর্বনিম্ন ৳৩৫, সর্বোচ্চ ৳১০৫)</label>
+                    <input type="number" id="pay-amount" placeholder="35">
+                    <small style="color: #ff9f43; display: block; margin-top: 5px; font-size: 11px;">⚠️ প্রতিটি উইথড্রতে ৫ টাকা চার্জ কাটা হবে।</small>
                 </div>
                 <button class="btn btn-ad" onclick="submitWithdraw()">Submit Withdraw Request</button>
             </div>
@@ -240,7 +310,7 @@
             </div>
 
             <div class="card">
-                <h4 style="font-size: 14px; margin-bottom: 10px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
+                <h4 style="margin-bottom: 10px; font-size: 15px; color: #ffecd2;">টিম মেম্বার তালিকা</h4>
                 <div class="scrollable-team-list" id="team-list">
                     <div style="text-align: center; color: #888; font-size: 12px; padding: 15px 0;">
                         এখনো কোনো টিম মেম্বার যুক্ত হয়নি। লিংক শেয়ার করে রেফার করুন!
@@ -256,7 +326,7 @@
             <div class="card profile-header">
                 <div class="avatar-big" id="acc-avatar">U</div>
                 <h3 id="acc-name" style="margin-bottom: 4px;">Loading...</h3>
-                <span class="badge-active" style="font-size: 12px;">● Active Account</span>
+                <span class="badge-active" style="font-size: 12px;">[x]  Active Account</span>
             </div>
 
             <div class="card">
@@ -298,27 +368,44 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // টেলিগ্রাম থেকে ইউজারের রিয়েল আইডি, নাম ও ইউজারনেম অটোমেটিক নেওয়ার লজিক
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
-            const user = tg.initDataUnsafe.user;
-            const fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            const username = user.username ? "@" + user.username : "@user_" + user.id;
-            
-            // অ্যাকাউন্ট পেজে রিয়েল ডাটা বসানো
-            document.getElementById('acc-name').innerText = fullName;
-            document.getElementById('acc-avatar').innerText = user.first_name.charAt(0).toUpperCase();
-            document.getElementById('acc-username').innerText = username;
-            document.getElementById('acc-id').innerText = user.id;
+        let userId = "";
+        let firstName = "";
+        let username = "";
 
-            // ইউজারের ইউনিক টেলিগ্রাম আইডি দিয়ে ডাইনামিক রেফারেল লিংক তৈরি
-            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${user.id}`;
-        } else {
-            // যদি কেউ টেলিগ্রাম অ্যাপের বাইরে সাধারণ ব্রাউজার থেকে খোলে
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
+            userId = tg.initDataUnsafe.user.id;
+            firstName = tg.initDataUnsafe.user.first_name || "Telegram User";
+            username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
+        } else if (tg.initData) {
+            try {
+                const urlParams = new URLSearchParams(tg.initData);
+                const userStr = urlParams.get('user');
+                if (userStr) {
+                    const userObj = JSON.parse(userStr);
+                    userId = userObj.id;
+                    firstName = userObj.first_name || "Telegram User";
+                    username = userObj.username ? "@" + userObj.username : "@user_" + userId;
+                }
+            } catch (e) {
+                console.log("Parsing error", e);
+            }
+        }
+
+        if (!userId) {
             document.getElementById('acc-name').innerText = "Telegram User";
             document.getElementById('acc-avatar').innerText = "T";
             document.getElementById('acc-username').innerText = "@telegram_user";
             document.getElementById('acc-id').innerText = "Not Available";
             document.getElementById('ref-link').value = "দয়া করে টেলিগ্রাম বট থেকে ওপেন করুন";
+        } else {
+            const fullName = firstName + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name ? ' ' + window.Telegram.WebApp.initDataUnsafe.user.last_name : '');
+            
+            document.getElementById('acc-name').innerText = fullName;
+            document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
+            document.getElementById('acc-username').innerText = username;
+            document.getElementById('acc-id').innerText = userId;
+
+            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
         }
 
         let balance = 0.00;
@@ -370,8 +457,8 @@
         }
 
         function startAd() {
-            if (adsWatched >= 20) {
-                tg.showAlert("আজকের মতো আপনার অ্যাড দেখার লিমিট শেষ!");
+            if (adsWatched >= 100) {
+                tg.showAlert("আজকের মতো আপনার ১০০টি অ্যাড দেখার লিমিট শেষ!");
                 return;
             }
             window.open("https://your-monetag-direct-link.com", "_blank");
@@ -392,8 +479,15 @@
                     clearInterval(countdown);
                     btn.style.display = 'block';
                     timerBox.style.display = 'none';
+                    
                     adsWatched++;
                     document.getElementById('ads-watched').innerText = adsWatched;
+                    document.getElementById('task1-count').innerText = adsWatched;
+                    
+                    // প্রোগ্রেস বার আপডেট করার লজিক (১% করে ১০০% পর্যন্ত)
+                    let progressPercent = adsWatched; 
+                    document.getElementById('task1-progress').style.width = progressPercent + '%';
+
                     updateBalance(0.50);
                     tg.showAlert("অ্যাড দেখা সম্পন্ন হয়েছে! ৳০.৫০ যোগ করা হলো।");
                 }
@@ -406,22 +500,18 @@
             const amt = parseFloat(document.getElementById('pay-amount').value);
 
             if (!num || num.length < 11) { tg.showAlert("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন!"); return; }
-            if (isNaN(amt) || amt < 15) { tg.showAlert("সর্বনিম্ন উইথড্র ১৫ টাকা!"); return; }
+            if (isNaN(amt) || amt < 35 || amt > 105) { tg.showAlert("উইথড্র অ্যামাউন্ট সর্বনিম্ন ৩৫ টাকা এবং সর্বোচ্চ ১০৫ টাকা হতে হবে!"); return; }
             if (amt > balance) { tg.showAlert("আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই!"); return; }
 
-            // ব্যালেন্স থেকে টাকা কর্তন
             balance -= amt;
             updateBalance(0);
 
-            // মোট উইথড্র হিসাব আপডেট
             totalWithdrawnAmount += amt;
             document.getElementById('total-withdraw').innerText = totalWithdrawnAmount.toFixed(2);
 
-            // বর্তমান তারিখ ও সময় তৈরি
             const now = new Date();
             const timeString = now.toLocaleDateString('bn-BD') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // হিস্টরিতে নতুন রিকোয়েস্ট যোগ করা
             const historyItem = {
                 method: method.toUpperCase(),
                 number: num,
@@ -435,12 +525,10 @@
 
             tg.showAlert("আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!");
 
-            // ইনপুট ফিল্ড রিসেট
             document.getElementById('pay-number').value = '';
-            document.getElementById('pay-amount').value = '15';
+            document.getElementById('pay-amount').value = '35';
         }
 
-        // উইথড্র হিস্টরি রেন্ডার করার ফাংশন (টাইপো ঠিক করা হয়েছে)
         function renderWithdrawHistory() {
             const listEl = document.getElementById('withdraw-history-list');
             if (withdrawHistory.length === 0) {

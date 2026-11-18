@@ -326,28 +326,36 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ডিফল্ট বা ফলব্যাক মান, যাতে ব্রাউজারে বা ডেটা না পেলে Unavailable না দেখায়
-        let userId = "6935814571"; 
-        let firstName = "Sakib";
-        let username = "@machingboy";
+        let userId = "";
+        let firstName = "";
+        let username = "";
 
+        // নিখুঁতভাবে টেলিগ্রামের রিয়াল ইউজার আইডি ও ইউজারনেম ক্যাপচার করা
         if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
             userId = tg.initDataUnsafe.user.id;
             firstName = tg.initDataUnsafe.user.first_name || "User";
             username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
         }
 
-        const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
-        
-        // পেজে ডাটাগুলো বসিয়ে দেওয়া
-        document.getElementById('acc-name').innerText = fullName;
-        document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
-        document.getElementById('acc-username').innerText = username;
-        document.getElementById('acc-id').innerText = userId;
-        
-        // @Amiincome_bot দিয়ে রেফারেল লিংক অটো জেনারেট
-        document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
-        document.getElementById('top-user-1').innerText = username;
+        if (userId) {
+            const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
+            
+            // রিয়াল ডাটা পেজে বসিয়ে দেওয়া
+            document.getElementById('acc-name').innerText = fullName;
+            document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
+            document.getElementById('acc-username').innerText = username;
+            document.getElementById('acc-id').innerText = userId;
+            
+            // প্রতিটি ইউজারের নিজস্ব টেলিগ্রাম আইডি দিয়ে আলাদা রেফারেল লিংক অটো জেনারেট
+            document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
+            document.getElementById('top-user-1').innerText = username;
+        } else {
+            // টেলিগ্রামের বাইরে ব্রাউজারে খুললে সতর্কতা দেখাবে
+            document.getElementById('acc-name').innerText = "Telegram থেকে ওপেন করুন";
+            document.getElementById('acc-username').innerText = "@not_telegram";
+            document.getElementById('acc-id').innerText = "N/A";
+            document.getElementById('ref-link').value = "দয়া করে টেলিগ্রাম বট থেকে ওপেন করুন";
+        }
 
         let balance = 0.00;
         let adsWatched = { 1: 0, 2: 0, 3: 0, 4: 0 };

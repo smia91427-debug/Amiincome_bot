@@ -94,7 +94,7 @@
         <div class="logo-text">AMI Income</div>
         
         <div class="notice-container">
-            <div class="notice-text">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে ইনকাম করুন।</div>
+            <div class="notice-text" id="dynamic-notice">📢 স্বাগতম AMI Income এ! প্রতিদিন নিয়মিত অ্যাড দেখে ও টাস্ক সম্পন্ন করে ইনকাম করুন।</div>
         </div>
 
         <a href="https://t.me/smia91427" target="_blank" class="support-badge" id="support-btn">
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <!-- 3. AD EARN PAGE (চারটি অ্যাড টাস্ক কার্ডসহ) -->
+        <!-- 3. AD EARN PAGE -->
         <div id="ads" class="page">
             <h3 style="margin-bottom: 12px; font-size: 15px;">অ্যাড দেখে আয় করুন</h3>
             
@@ -334,14 +334,14 @@
             userId = tg.initDataUnsafe.user.id;
             firstName = tg.initDataUnsafe.user.first_name || "User";
             username = tg.initDataUnsafe.user.username ? "@" + tg.initDataUnsafe.user.username : "@user_" + userId;
-        }
-
-        if (userId) {
+            
             const fullName = firstName + (tg.initDataUnsafe?.user?.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
             document.getElementById('acc-name').innerText = fullName;
             document.getElementById('acc-avatar').innerText = firstName.charAt(0).toUpperCase();
             document.getElementById('acc-username').innerText = username;
             document.getElementById('acc-id').innerText = userId;
+            
+            // @Amiincome_bot দিয়ে পারফেক্ট রেফারেল লিংক অটো জেনারেট
             document.getElementById('ref-link').value = `https://t.me/Amiincome_bot?start=${userId}`;
             document.getElementById('top-user-1').innerText = username;
         }
@@ -491,4 +491,4 @@
         }
     </script>
 </body>
-    </html>
+                    </html>
